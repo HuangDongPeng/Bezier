@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="资源文件\Shaders">
+      <UniqueIdentifier>{43b8f7d8-b440-42f0-b3e8-a308b788fa65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses">
+      <UniqueIdentifier>{352d3041-be19-49de-9b1e-5251166d8e30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\NormalMap">
+      <UniqueIdentifier>{24154cf8-5efa-47fa-8891-407bbdc97eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\PointShader">
+      <UniqueIdentifier>{49cd6950-e7e7-4f66-a55c-1e545143b040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\shadowMap">
+      <UniqueIdentifier>{58eeeef0-ab27-4d49-94c8-e9f7a05e2d55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\SSAO">
+      <UniqueIdentifier>{4724f5fd-4ce1-4f8b-b3d7-67e95e30ac3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\FramBuffer">
+      <UniqueIdentifier>{29850d1a-24f6-432a-a094-897ac013680c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\gBuffer">
+      <UniqueIdentifier>{1c7c104f-5ab8-4968-9d95-2690f3a252dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\GeometryShader">
+      <UniqueIdentifier>{5bbd9a85-a14d-4657-be54-506d09ef4a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\HDRShader">
+      <UniqueIdentifier>{fe37ab08-0476-47e8-9f54-aea24dbaef2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\HeightMap">
+      <UniqueIdentifier>{2f5af9a2-c400-4d73-a18d-d17f25c4d1db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Courses\ModelLoading">
+      <UniqueIdentifier>{aabeea6d-0d46-46cd-a288-93c005eb3a7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Helper">
+      <UniqueIdentifier>{0b54c0d8-c653-4b23-b369-81bfbb9f453d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Lighting">
+      <UniqueIdentifier>{747bb1b3-cf9c-4e9e-9889-92656f9f8083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Shape">
+      <UniqueIdentifier>{fa778d32-555d-4164-b677-b8705025f39c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Shaders\Shape\Bezier">
+      <UniqueIdentifier>{dd44b05c-8e4b-423f-8d5e-a41960a78fb8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>源文件\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Bezier.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\glad.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>源文件\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Bezier.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="geometry.fs">
+      <Filter>资源文件\Shaders\Courses\GeometryShader</Filter>
+    </None>
+    <None Include="geometry.gs">
+      <Filter>资源文件\Shaders\Courses\GeometryShader</Filter>
+    </None>
+    <None Include="geometry.vs">
+      <Filter>资源文件\Shaders\Courses\GeometryShader</Filter>
+    </None>
+    <None Include="3.1.2.shadow_mapping.vs">
+      <Filter>资源文件\Shaders\Courses\shadowMap</Filter>
+    </None>
+    <None Include="3.1.2.shadow_mapping.fs">
+      <Filter>资源文件\Shaders\Courses\shadowMap</Filter>
+    </None>
+    <None Include="3.1.2.shadow_mapping_depth.vs">
+      <Filter>资源文件\Shaders\Courses\shadowMap</Filter>
+    </None>
+    <None Include="3.1.2.shadow_mapping_depth.fs">
+      <Filter>资源文件\Shaders\Courses\shadowMap</Filter>
+    </None>
+    <None Include="3.1.2.debug_quad.vs">
+      <Filter>资源文件\Shaders\Courses\shadowMap</Filter>
+    </None>
+    <None Include="3.1.2.debug_quad.fs">
+      <Filter>资源文件\Shaders\Courses\shadowMap</Filter>
+    </None>
+    <None Include="ModelLoading.vs">
+      <Filter>资源文件\Shaders\Courses\ModelLoading</Filter>
+    </None>
+    <None Include="ModelLoading.fs">
+      <Filter>资源文件\Shaders\Courses\ModelLoading</Filter>
+    </None>
+    <None Include="framebuffers.vs">
+      <Filter>资源文件\Shaders\Courses\FramBuffer</Filter>
+    </None>
+    <None Include="framebuffer.fs">
+      <Filter>资源文件\Shaders\Courses\FramBuffer</Filter>
+    </None>
+    <None Include="framebuffer_screen.vs">
+      <Filter>资源文件\Shaders\Courses\FramBuffer</Filter>
+    </None>
+    <None Include="framebuffer_screen.fs">
+      <Filter>资源文件\Shaders\Courses\FramBuffer</Filter>
+    </None>
+    <None Include="pointShadow.fs">
+      <Filter>资源文件\Shaders\Courses\PointShader</Filter>
+    </None>
+    <None Include="pointShadow.vs">
+      <Filter>资源文件\Shaders\Courses\PointShader</Filter>
+    </None>
+    <None Include="pointShadowDepth.vs">
+      <Filter>资源文件\Shaders\Courses\PointShader</Filter>
+    </None>
+    <None Include="pointShadowDepth.fs">
+      <Filter>资源文件\Shaders\Courses\PointShader</Filter>
+    </None>
+    <None Include="pointShadowDepth.gs">
+      <Filter>资源文件\Shaders\Courses\PointShader</Filter>
+    </None>
+    <None Include="normalShader.vs">
+      <Filter>资源文件\Shaders\Courses\NormalMap</Filter>
+    </None>
+    <None Include="normalShader.fs">
+      <Filter>资源文件\Shaders\Courses\NormalMap</Filter>
+    </None>
+    <None Include="HeightMap.vs">
+      <Filter>资源文件\Shaders\Courses\HeightMap</Filter>
+    </None>
+    <None Include="HeightMap.fs">
+      <Filter>资源文件\Shaders\Courses\HeightMap</Filter>
+    </None>
+    <None Include="HDR.vs">
+      <Filter>资源文件\Shaders\Courses\HDRShader</Filter>
+    </None>
+    <None Include="HDR.fs">
+      <Filter>资源文件\Shaders\Courses\HDRShader</Filter>
+    </None>
+    <None Include="lighting.vs">
+      <Filter>资源文件\Shaders\Courses\HDRShader</Filter>
+    </None>
+    <None Include="lighting.fs">
+      <Filter>资源文件\Shaders\Courses\HDRShader</Filter>
+    </None>
+    <None Include="gBuffer.vs">
+      <Filter>资源文件\Shaders\Courses\gBuffer</Filter>
+    </None>
+    <None Include="gBuffer.fs">
+      <Filter>资源文件\Shaders\Courses\gBuffer</Filter>
+    </None>
+    <None Include="deferredShading.vs">
+      <Filter>资源文件\Shaders\Courses\gBuffer</Filter>
+    </None>
+    <None Include="deferredShading.fs">
+      <Filter>资源文件\Shaders\Courses\gBuffer</Filter>
+    </None>
+    <None Include="deferredLightBox.vs">
+      <Filter>资源文件\Shaders\Courses\gBuffer</Filter>
+    </None>
+    <None Include="deferredLightBox.fs">
+      <Filter>资源文件\Shaders\Courses\gBuffer</Filter>
+    </None>
+    <None Include="SSAO_Geometry.vs">
+      <Filter>资源文件\Shaders\Courses\SSAO</Filter>
+    </None>
+    <None Include="SSAO_Geometry.fs">
+      <Filter>资源文件\Shaders\Courses\SSAO</Filter>
+    </None>
+    <None Include="ssao.vs">
+      <Filter>资源文件\Shaders\Courses\SSAO</Filter>
+    </None>
+    <None Include="SSAO_Lighting.fs">
+      <Filter>资源文件\Shaders\Courses\SSAO</Filter>
+    </None>
+    <None Include="ssao.fs">
+      <Filter>资源文件\Shaders\Courses\SSAO</Filter>
+    </None>
+    <None Include="SSAO_Blur.fs">
+      <Filter>资源文件\Shaders\Courses\SSAO</Filter>
+    </None>
+    <None Include="instancing.fs">
+      <Filter>资源文件\Shaders\Courses</Filter>
+    </None>
+    <None Include="instancing.vs">
+      <Filter>资源文件\Shaders\Courses</Filter>
+    </None>
+    <None Include="Bezier.vs">
+      <Filter>资源文件\Shaders\Shape\Bezier</Filter>
+    </None>
+    <None Include="Bezier.fs">
+      <Filter>资源文件\Shaders\Shape\Bezier</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="container.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
