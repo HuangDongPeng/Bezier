@@ -9,22 +9,17 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Model.h"
-
+#include "BezierSurface.h"
 #include <iostream>
 #include <random>
 #include "BezierCurver.h"
-int VectorSizeByte(std::vector<glm::vec3> vector) {
-	return sizeof(float)*vector.size() * 3;
-}
-
+#include "Tool.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void DrawLine(std::vector<glm::vec3> points);
 void processInput(GLFWwindow *window);
 void renderCube();
-
 
 float lerp(float a, float b, float f)
 {
@@ -65,13 +60,19 @@ int main() {
 		return -1;
 	}
 
-	glm::vec3 controlPoint1(-1.0f, -0.5f, 0.0f);
-	glm::vec3 controlPoint2(0.5f, -0.5f, 0.0f);
-	glm::vec3 controlPoint3(0.5f, 0.0f, 0.0f);
-	glm::vec3 controlPoint4(0.5f, 0.5f, 0.0f);
-	glm::vec3 controlPoint5(0.0f, 0.5f, 0.0f);
-	glm::vec3 controlPoint6(-0.5, 0.5f, 0.0f);
-	glm::vec3 controlPoint7(-1.0, 0.5f, 0.0f);
+	glfwSetCursorPosCallback(window, mouse_callback);
+
+	glm::vec3 controlPoint1(-1.0f, 1.0f, 0.0f);
+	glm::vec3 controlPoint2(0.0f, 1.0f, 0.0f);
+	glm::vec3 controlPoint3(1.0f, 1.0f, 0.0f);
+
+	glm::vec3 controlPoint4(-1.0f, 0.0f, 0.0f);
+	glm::vec3 controlPoint5(0.0f, 0.0f, 0.0f);
+	glm::vec3 controlPoint6(1.0f, 0.0f, 0.0f);
+
+	glm::vec3 controlPoint7(-1.0, -1.0f, 0.0f);
+	glm::vec3 controlPoint8(0.0, -1.0f, 0.0f);
+	glm::vec3 controlPoint9(1.0, -1.0f, 0.0f);
 
 	Shader shader("Bezier.vs", "Bezier.fs");
 
@@ -79,15 +80,26 @@ int main() {
 	pointsVector.push_back(controlPoint1);
 	pointsVector.push_back(controlPoint2);
 	pointsVector.push_back(controlPoint3);
+	BezierCurver bezierCurver1(pointsVector, 0.1f);
+
+	pointsVector.clear();
 	pointsVector.push_back(controlPoint4);
 	pointsVector.push_back(controlPoint5);
 	pointsVector.push_back(controlPoint6);
+	BezierCurver bezierCurver2(pointsVector, 0.1f);
+
+	pointsVector.clear();
 	pointsVector.push_back(controlPoint7);
+	pointsVector.push_back(controlPoint8);
+	pointsVector.push_back(controlPoint9);
+	BezierCurver bezierCurver3(pointsVector, 0.1f);
 
+	std::vector<BezierCurver> baseCurvers;
+	baseCurvers.push_back(bezierCurver1);
+	baseCurvers.push_back(bezierCurver2);
+	baseCurvers.push_back(bezierCurver3);
 
-	//test(pointsVector, 0.5f);
-	BezierCurver bezier(pointsVector,0.01f);
-	
+	BezierSurface bezierSurface(baseCurvers);
 
 	int pointsSize = VectorSizeByte(pointsVector);
 	unsigned int VBO, VAO;
@@ -104,16 +116,34 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	unsigned int texture1 = loadTexture("awesomeface.png");
+
+	shader.setInt("texture1", 1);
+
 	while (!glfwWindowShouldClose(window)) {
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		processInput(window);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		shader.use();
-		glBindVertexArray(VAO);
-		glPointSize(10);
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 view = camera.GetViewMatrix();
+		glm::mat4 model = glm::mat4(1.0);
 
-		glDrawArrays(GL_POINTS, 0, pointsVector.size());
-		bezier.DrawCurve();
+		shader.setMat4("projection", projection);
+		shader.setMat4("view", view);
+		shader.setMat4("model", model);
+
+		//bezierCurver1.DrawCurve();
+		//bezierCurver2.DrawCurve();
+		//bezierCurver3.DrawCurve();
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		bezierSurface.DrawSurface();
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -213,6 +243,10 @@ void processInput(GLFWwindow *window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		camera.ProcessKeyboard(UP, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		camera.ProcessKeyboard(DOWN, deltaTime);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -240,6 +274,9 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 	lastX = xpos;
 	lastY = ypos;
+
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) != GLFW_PRESS)
+		return;
 
 	camera.ProcessMouseMovement(xoffset, yoffset);
 }

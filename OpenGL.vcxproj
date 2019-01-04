@@ -156,18 +156,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BezierCurver.h" />
+    <ClInclude Include="BezierSurface.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Tool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="BezierCurver.cpp" />
+    <ClCompile Include="BezierSurface.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
