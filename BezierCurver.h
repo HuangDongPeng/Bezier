@@ -6,19 +6,18 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
 
-class Bezier
+class BezierCurver
 {
 public:
-	Bezier(std::vector<glm::vec3> points, float step);
-	~Bezier();
-
+	BezierCurver(std::vector<glm::vec3> points, float step);
+	~BezierCurver();
+	std::vector<glm::vec3> allPoints;
 	void DrawCurve();
 
 private:
 	glm::vec3 CalculatePoint(glm::vec3 point1, glm::vec3 point2, glm::vec3 point3, float lerpArg);
 	glm::vec3 GetPoint(std::vector<glm::vec3>& points, float lerpArg);
 	glm::vec3 GetPointSimple(std::vector<glm::vec3> points, float lerpArg);
-	std::vector<glm::vec3> allPoints;
 
 	void CalcPoint(std::vector<glm::vec3> points, float lerpArg, std::vector<glm::vec3>& tmpVector);
 

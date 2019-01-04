@@ -12,8 +12,7 @@
 
 #include <iostream>
 #include <random>
-#include "Bezier.h"
-
+#include "BezierCurver.h"
 int VectorSizeByte(std::vector<glm::vec3> vector) {
 	return sizeof(float)*vector.size() * 3;
 }
@@ -87,7 +86,7 @@ int main() {
 
 
 	//test(pointsVector, 0.5f);
-	Bezier bezier(pointsVector,0.01f);
+	BezierCurver bezier(pointsVector,0.01f);
 	
 
 	int pointsSize = VectorSizeByte(pointsVector);

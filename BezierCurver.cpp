@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "Bezier.h"
+#include "BezierCurver.h"
 
 
-Bezier::Bezier(std::vector<glm::vec3> points,float lerpStep)
+BezierCurver::BezierCurver(std::vector<glm::vec3> points,float lerpStep)
 {
 	for (float lerpArg = 0.00f; lerpArg < 1; lerpArg += lerpStep) {
 		glm::vec3 point = GetPoint(points, lerpArg);
@@ -10,12 +10,12 @@ Bezier::Bezier(std::vector<glm::vec3> points,float lerpStep)
 	}
 }
 
-Bezier::~Bezier()
+BezierCurver::~BezierCurver()
 {
 }
 
 unsigned int bezierVAO = 0, bezierVBO = 0;
-void Bezier::DrawCurve() {
+void BezierCurver::DrawCurve() {
 	if (bezierVAO == 0) {
 		int size =  VectorSizeByte(allPoints);
 		glGenVertexArrays(1, &bezierVAO);
@@ -37,7 +37,7 @@ void Bezier::DrawCurve() {
 }
 
 //只有三个点的曲线生成
-glm::vec3 Bezier::CalculatePoint(glm::vec3 point1, glm::vec3 point2, glm::vec3 point3, float lerpArg) {
+glm::vec3 BezierCurver::CalculatePoint(glm::vec3 point1, glm::vec3 point2, glm::vec3 point3, float lerpArg) {
 	glm::vec3 vec12 = point2 - point1;
 	glm::vec3 vec23 = point3 - point2;
 
@@ -48,13 +48,13 @@ glm::vec3 Bezier::CalculatePoint(glm::vec3 point1, glm::vec3 point2, glm::vec3 p
 	glm::vec3 result = point12 + vecNew * lerpArg;
 	return result;
 }
-glm::vec3 Bezier::GetPointSimple(std::vector<glm::vec3> points, float lerpArg)
+glm::vec3 BezierCurver::GetPointSimple(std::vector<glm::vec3> points, float lerpArg)
 {
 	return CalculatePoint(points[0], points[1], points[2], lerpArg);
 }
 
 //提取前三个点生成中间点
-void Bezier::CalcPoint(std::vector<glm::vec3> points, float lerpArg, std::vector<glm::vec3>& tmpVector) {
+void BezierCurver::CalcPoint(std::vector<glm::vec3> points, float lerpArg, std::vector<glm::vec3>& tmpVector) {
 	if (points.size() < 3) {
 		return;
 	}
@@ -73,7 +73,7 @@ void Bezier::CalcPoint(std::vector<glm::vec3> points, float lerpArg, std::vector
 }
 
 //超过三个点递归获取曲线点
-glm::vec3 Bezier::GetPoint(std::vector<glm::vec3>& points, float lerpArg) {
+glm::vec3 BezierCurver::GetPoint(std::vector<glm::vec3>& points, float lerpArg) {
 	if (points.size() == 3) {
 		return GetPointSimple(points, lerpArg);
 	}

@@ -81,7 +81,7 @@
     <ClInclude Include="Shader.h">
       <Filter>源文件\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="Bezier.h">
+    <ClInclude Include="BezierCurver.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,7 +104,7 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Bezier.cpp">
+    <ClCompile Include="BezierCurver.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
