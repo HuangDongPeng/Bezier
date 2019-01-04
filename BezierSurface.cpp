@@ -28,10 +28,9 @@ void BezierSurface::InitSurface() {
 
 	int pointCountEveryCow = 1 / lerpStep + 1;
 	float texStep = 1.0f / pointCountEveryCow*1.0f;
-	int cow = 0;
 	float s, t;
 	for (int i = 0; i < pointCountEveryCow; i++) {
-		int index = cow * pointCountEveryCow;
+		//设置纹理坐标
 		for (int j = 0; j < pointCountEveryCow; j++) 
 		{
 			s = i * texStep;
@@ -40,7 +39,45 @@ void BezierSurface::InitSurface() {
 			glm::vec2 texCoords(s, t);
 			allTexCoords.push_back(texCoords);
 		}
-		cow++;
+
+		//设置法线
+		glm::vec3 normal(0);
+		glm::vec3 dir1(0);
+		glm::vec3 dir2(0);
+		int index = i * pointCountEveryCow;
+		//不是最后一列
+		if (i < pointCountEveryCow - 1) {
+			for (int j = 0; j < pointCountEveryCow; j++, index++) {
+				if (j < pointCountEveryCow - 1) {
+					dir1 = allPoints[index + pointCountEveryCow] - allPoints[index];
+					dir2 = allPoints[index + 1] - allPoints[index];
+				}
+				else
+				{
+					dir1 = allPoints[index - 1] - allPoints[index];
+					dir2 = allPoints[index + pointCountEveryCow] - allPoints[index];
+				}
+				normal = glm::normalize(glm::cross(dir1, dir2));
+				allNormals.push_back(normal);
+			}
+		}
+		//最后一列
+		else
+		{
+			for (int j = 0; j < pointCountEveryCow; j++, index++) {
+				if (j < pointCountEveryCow - 1) {
+					dir1 = allPoints[index + 1] - allPoints[index];
+					dir2 = allPoints[index - pointCountEveryCow] - allPoints[index];
+				}
+				else
+				{
+					dir1 = allPoints[index - pointCountEveryCow] - allPoints[index];
+					dir2 = allPoints[index - 1] - allPoints[index];
+				}
+				normal = glm::normalize(glm::cross(dir1, dir2));
+				allNormals.push_back(normal);
+			}
+		}
 	}
 
 }
@@ -64,44 +101,11 @@ void BezierSurface::DrawSurface() {
 				eboVector.push_back(index + 1);
 
 
-				//设置法线(不包括最后一列)
-				glm::vec3 normal(0);
-				glm::vec3 dir1(0);
-				glm::vec3 dir2(0);
-				if (index < pointCountEveryCow-1) {
-					dir1 = allPoints[index + pointCountEveryCow] - allPoints[index];
-					dir2 = allPoints[index + 1] - allPoints[index];
-				}
-				else 
-				{
-					dir1 = allPoints[index - 1] - allPoints[index];
-					dir2 = allPoints[index + pointCountEveryCow] - allPoints[index];
-				}
-				normal = glm::normalize(glm::cross(dir1, dir2));
-				allNormals.push_back(normal);
+			
 
 				index++;
 			}
 			cow++;
-		}
-		//补齐最后一列法线
-		glm::vec3 normal(0);
-		glm::vec3 dir1(0);
-		glm::vec3 dir2(0);
-		for (int i = 0; i < pointCountEveryCow; i++) {
-			int index = pointCountEveryCow * (pointCountEveryCow - 1);
-			if (i < pointCountEveryCow - 1) {
-				dir1 = allPoints[index + 1] - allPoints[index];
-				dir2 = allPoints[index - pointCountEveryCow] - allPoints[index];
-			}
-			else
-			{
-				dir1 = allPoints[index - pointCountEveryCow] - allPoints[index];
-				dir2 = allPoints[index - 1] - allPoints[index];
-			}
-			index++;
-			normal = glm::normalize(glm::cross(dir1, dir2));
-			allNormals.push_back(normal);
 		}
 
 		EBOCount = eboVector.size();

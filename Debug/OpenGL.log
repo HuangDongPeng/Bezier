@@ -2,5 +2,5 @@
 c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(18): warning C4018: “<”: 有符号/无符号不匹配
 c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(20): warning C4018: “<”: 有符号/无符号不匹配
 c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(29): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(51): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(88): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
   OpenGL.vcxproj -> C:\Users\Dangerous\source\repos\OpenGL\Debug\OpenGL.exe
