@@ -14,6 +14,7 @@
 #include "BezierCurver.h"
 #include "Tool.h"
 #include "Selector.h"
+#include "Koch.h"
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -65,7 +66,6 @@ int main() {
 	glfwSetCursorPosCallback(window, mouse_callback);
 
 #pragma endregion
-
 	std::vector<glm::vec3> pointsVector;
 	unsigned int VBO, VAO;
 
@@ -99,6 +99,14 @@ int main() {
 	pointsVector.push_back(controlPoint8);
 	pointsVector.push_back(controlPoint9);
 	BezierCurver bezierCurver3(pointsVector, 0.1f);
+
+	glm::vec3 kochPoint1(-1.0, 0.0f, 0.0f);
+	glm::vec3 kochPoint2(1.0, 0.0f, 0.0f);
+	glm::vec3 kochPoint3(0.0, 1.0f, 0.0f);
+	Koch koch1(kochPoint2, kochPoint1,camera.Front);
+	Koch koch2(kochPoint3, kochPoint2, camera.Front);
+	Koch koch3(kochPoint1, kochPoint3, camera.Front);
+
 
 #pragma region BezierSurface
 	std::vector<BezierCurver> baseCurvers;
@@ -146,8 +154,10 @@ int main() {
 		shader.setMat4("view", view);
 		shader.setMat4("model", model);
 		
-		bezierSurface.DrawSurface();
-		bezierSurface.DrawPoints();
+		koch1.Draw();
+		koch2.Draw();
+		koch3.Draw();
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

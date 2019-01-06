@@ -57,3 +57,11 @@ float Length(glm::vec2 a, glm::vec2 b) {
 	glm::vec2 tmp = a - b;
 	return sqrt(tmp.x*tmp.x + tmp.y*tmp.y);
 }
+
+float Length(glm::vec2 dir) {
+	return (sqrt(dir.x*dir.x + dir.y*dir.y));
+}
+
+float Length_2D(glm::vec3 dir) {
+	return (sqrt(dir.x*dir.x + dir.y*dir.y));
+}
