@@ -4,6 +4,10 @@
 BezierCurver::BezierCurver(std::vector<glm::vec3> points,float lerpStep)
 {
 	controlPoints = points;
+	for (int i = 0; i < controlPoints.size(); i++) {
+		Manager::controlPointsManager.push_back(&controlPoints[i]);
+	}
+
 	this->lerpStep = lerpStep;
 	for (float lerpArg = 0.00f;lerpArg<=1.0001; lerpArg += lerpStep) {
 		glm::vec3 point = GetPoint(points, lerpArg);
@@ -19,16 +23,14 @@ int BezierCurver::VectorSizeByte(std::vector<glm::vec3> vector) {
 	return sizeof(float)*vector.size() * 3;
 }
 
-
-
 void BezierCurver::DrawCurve() {
 	if (bezierVAO == 0) {
-		int size =  VectorSizeByte(allPoints);
+	    int size =  VectorSizeByte(allPoints);
 		glGenVertexArrays(1, &bezierVAO);
 		glBindVertexArray(bezierVAO);
 		glGenBuffers(1, &bezierVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, bezierVBO);
-		glBufferData(GL_ARRAY_BUFFER, size, &allPoints[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, size, &allPoints[0], GL_DYNAMIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
@@ -36,7 +38,16 @@ void BezierCurver::DrawCurve() {
 
 		glBindVertexArray(0);
 	}
+
+	allPoints.clear();
+	for (float lerpArg = 0.00f; lerpArg <= 1.0001; lerpArg += lerpStep) {
+		glm::vec3 point = GetPoint(controlPoints, lerpArg);
+		allPoints.push_back(point);
+	}
+
 	glBindVertexArray(bezierVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, bezierVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3)*allPoints.size(), &allPoints[0], GL_DYNAMIC_DRAW);
 	glDrawArrays(GL_LINE_STRIP, 0, allPoints.size());
 	glBindVertexArray(0);
 
@@ -109,7 +120,7 @@ void BezierCurver::DrawControlPoints()
 		glBindVertexArray(controlPointsVAO);
 		glGenBuffers(1, &controlPointsVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, controlPointsVBO);
-		glBufferData(GL_ARRAY_BUFFER, size, &controlPoints[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, size, &controlPoints[0], GL_DYNAMIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
@@ -119,6 +130,8 @@ void BezierCurver::DrawControlPoints()
 	}
 	glPointSize(10);
 	glBindVertexArray(controlPointsVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, controlPointsVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3)*controlPoints.size(), &controlPoints[0], GL_DYNAMIC_DRAW);
 	glDrawArrays(GL_POINTS, 0, controlPoints.size());
 	glBindVertexArray(0);
 	glPointSize(1);

@@ -1,6 +1,22 @@
 ﻿  BezierSurface.cpp
-c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(18): warning C4018: “<”: 有符号/无符号不匹配
-c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(20): warning C4018: “<”: 有符号/无符号不匹配
-c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(29): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(88): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(17): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(19): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(28): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(32): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(95): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(157): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\dangerous\source\repos\opengl\opengl\beziersurface.cpp(167): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  main.cpp
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(133): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(70): warning C4101: “VBO”: 未引用的局部变量
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(70): warning C4101: “VAO”: 未引用的局部变量
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(274): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(275): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(280): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(281): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(283): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(286): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(287): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(298): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  正在生成代码...
   OpenGL.vcxproj -> C:\Users\Dangerous\source\repos\OpenGL\Debug\OpenGL.exe

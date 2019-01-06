@@ -5,7 +5,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
 #include "Shader.h"
 #include "Camera.h"
 #include "Model.h"
@@ -14,6 +13,11 @@
 #include <random>
 #include "BezierCurver.h"
 #include "Tool.h"
+#include "Selector.h"
+
+glm::mat4 projection;
+glm::mat4 view;
+//std::vector<glm::vec3*> controlPointManager;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -21,16 +25,13 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 void renderCube();
 
-float lerp(float a, float b, float f)
-{
-	return a + f * (b - a);
-}
 // settings
 const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
+Selector selector(SCR_WIDTH,SCR_HEIGHT,view, projection);
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
+Camera camera(glm::vec3(0.0f, 0.0f,5.0));
 float lastX = (float)SCR_WIDTH / 2.0;
 float lastY = (float)SCR_HEIGHT / 2.0;
 bool firstMouse = true;
@@ -40,6 +41,7 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 int main() {
+#pragma region WindowInit
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -62,21 +64,25 @@ int main() {
 
 	glfwSetCursorPosCallback(window, mouse_callback);
 
-	glm::vec3 controlPoint1(-1.0f, 1.0f, 0.0f);
-	glm::vec3 controlPoint2(0.0f, 1.0f, 0.0f);
-	glm::vec3 controlPoint3(1.0f, 1.0f, 0.0f);
+#pragma endregion
+
+	std::vector<glm::vec3> pointsVector;
+	unsigned int VBO, VAO;
+
+	glm::vec3 controlPoint1(-1.0f, 1.5f, 1.0f);
+	glm::vec3 controlPoint2(0.0f, 1.0f, 1.5f);
+	glm::vec3 controlPoint3(1.0f, 0.5f, -1.0f);
 
 	glm::vec3 controlPoint4(-1.0f, 0.0f, 0.0f);
 	glm::vec3 controlPoint5(0.0f, 0.0f, 0.0f);
 	glm::vec3 controlPoint6(1.0f, 0.0f, 0.0f);
 
-	glm::vec3 controlPoint7(-1.0, -1.0f, 0.0f);
-	glm::vec3 controlPoint8(0.0, -1.0f, 0.0f);
-	glm::vec3 controlPoint9(1.0, -1.0f, 0.0f);
+	glm::vec3 controlPoint7(-1.0, 0.0f, 0.0f);
+	glm::vec3 controlPoint8(0.0, 0.0f, 0.0f);
+	glm::vec3 controlPoint9(1.0, 0.0f, 0.0f);
 
 	Shader shader("Bezier.vs", "Bezier.fs");
 
-	std::vector<glm::vec3> pointsVector;
 	pointsVector.push_back(controlPoint1);
 	pointsVector.push_back(controlPoint2);
 	pointsVector.push_back(controlPoint3);
@@ -94,6 +100,7 @@ int main() {
 	pointsVector.push_back(controlPoint9);
 	BezierCurver bezierCurver3(pointsVector, 0.1f);
 
+#pragma region BezierSurface
 	std::vector<BezierCurver> baseCurvers;
 	baseCurvers.push_back(bezierCurver1);
 	baseCurvers.push_back(bezierCurver2);
@@ -101,20 +108,22 @@ int main() {
 
 	BezierSurface bezierSurface(baseCurvers);
 
-	int pointsSize = VectorSizeByte(pointsVector);
-	unsigned int VBO, VAO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+#pragma endregion
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, pointsSize, &pointsVector[0], GL_STATIC_DRAW);
+	//int pointsSize = VectorSizeByte(controlPointManager);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
-	glEnableVertexAttribArray(0);
+	//glGenVertexArrays(1, &VAO);
+	//glGenBuffers(1, &VBO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	//glBindVertexArray(VAO);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//glBufferData(GL_ARRAY_BUFFER, pointsSize, &controlPointManager[0], GL_DYNAMIC_DRAW);
+
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+	//glEnableVertexAttribArray(0);
+
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindVertexArray(0);
 
 	unsigned int texture1 = loadTexture("awesomeface.png");
 
@@ -129,29 +138,27 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		shader.use();
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		glm::mat4 view = camera.GetViewMatrix();
+		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		view = camera.GetViewMatrix();
 		glm::mat4 model = glm::mat4(1.0);
 
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
 		shader.setMat4("model", model);
-
-		//bezierCurver1.DrawCurve();
-		//bezierCurver2.DrawCurve();
-		//bezierCurver3.DrawCurve();
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture1);
+		
 		bezierSurface.DrawSurface();
+		bezierSurface.DrawPoints();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	//glDeleteVertexArrays(1, &VAO);
+	//glDeleteBuffers(1, &VBO);
 	return 0;
 
 }
+
+
 
 // renderCube() renders a 1x1 3D cube in NDC.
 // -------------------------------------------------
@@ -269,16 +276,19 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 		firstMouse = false;
 	}
 
+
 	float xoffset = xpos - lastX;
 	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
+		selector.Select(xpos, ypos, Manager::controlPointsManager, xoffset, yoffset);
+	}
 
 	lastX = xpos;
 	lastY = ypos;
 
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) != GLFW_PRESS)
-		return;
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
+		camera.ProcessMouseMovement(xoffset, yoffset);
 
-	camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called

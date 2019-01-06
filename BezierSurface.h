@@ -13,14 +13,17 @@ public:
 	~BezierSurface();
 
 	std::vector<BezierCurver> baseCurvers;
-	std::vector<BezierCurver> allCurvers;
+	std::vector<BezierCurver> allCurvers;//基础曲线
 
-	std::vector<glm::vec3> controlPoints;
-	std::vector<glm::vec3> allPoints;
+	std::vector<glm::vec3> allPoints;//所有控制点
 	std::vector<glm::vec3> allNormals;
 	std::vector<glm::vec2> allTexCoords;
 
 	void DrawSurface();
+	void DrawCurvers();
+	void DrawPoints();
+
+
 	void InitSurface();
 	int VectorSizeByte(std::vector<glm::vec3> vector);
 
