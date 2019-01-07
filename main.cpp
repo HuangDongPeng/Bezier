@@ -86,13 +86,17 @@ int main() {
 	pointsVector.push_back(controlPoint1);
 	pointsVector.push_back(controlPoint2);
 	pointsVector.push_back(controlPoint3);
-	BezierCurver bezierCurver1(pointsVector, 0.1f);
+	pointsVector.push_back(controlPoint4);
+
+	BezierCurver bezierCurver1(pointsVector, 0.05f);
 
 	pointsVector.clear();
 	pointsVector.push_back(controlPoint4);
 	pointsVector.push_back(controlPoint5);
 	pointsVector.push_back(controlPoint6);
-	BezierCurver bezierCurver2(pointsVector, 0.1f);
+	pointsVector.push_back(controlPoint7);
+
+	BezierCurver bezierCurver2(pointsVector, 0.05f);
 
 	pointsVector.clear();
 	pointsVector.push_back(controlPoint7);
@@ -100,21 +104,24 @@ int main() {
 	pointsVector.push_back(controlPoint9);
 	BezierCurver bezierCurver3(pointsVector, 0.1f);
 
+	pointsVector.clear();
 	glm::vec3 kochPoint1(-1.0, 0.0f, 0.0f);
 	glm::vec3 kochPoint2(1.0, 0.0f, 0.0f);
 	glm::vec3 kochPoint3(0.0, 1.0f, 0.0f);
-	Koch koch1(kochPoint2, kochPoint1,camera.Front);
-	Koch koch2(kochPoint3, kochPoint2, camera.Front);
-	Koch koch3(kochPoint1, kochPoint3, camera.Front);
+	pointsVector.push_back(kochPoint1);
+	pointsVector.push_back(kochPoint2);
+	pointsVector.push_back(kochPoint3);
+	
+	Koch koch(pointsVector, 1);
 
 
 #pragma region BezierSurface
-	std::vector<BezierCurver> baseCurvers;
-	baseCurvers.push_back(bezierCurver1);
-	baseCurvers.push_back(bezierCurver2);
-	baseCurvers.push_back(bezierCurver3);
+	//std::vector<BezierCurver> baseCurvers;
+	//baseCurvers.push_back(bezierCurver1);
+	//baseCurvers.push_back(bezierCurver2);
+	//baseCurvers.push_back(bezierCurver3);
 
-	BezierSurface bezierSurface(baseCurvers);
+	//BezierSurface bezierSurface(baseCurvers);
 
 #pragma endregion
 
@@ -154,10 +161,9 @@ int main() {
 		shader.setMat4("view", view);
 		shader.setMat4("model", model);
 		
-		koch1.Draw();
-		koch2.Draw();
-		koch3.Draw();
-
+		bezierCurver1.DrawControlPoints();
+		bezierCurver1.DrawCurve();
+		//koch.Draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -168,10 +174,6 @@ int main() {
 
 }
 
-
-
-// renderCube() renders a 1x1 3D cube in NDC.
-// -------------------------------------------------
 unsigned int cubeVAO = 0;
 unsigned int cubeVBO = 0;
 void renderCube()
@@ -245,8 +247,6 @@ void renderCube()
 	glBindVertexArray(0);
 }
 
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -266,8 +266,6 @@ void processInput(GLFWwindow *window)
 		camera.ProcessKeyboard(DOWN, deltaTime);
 }
 
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	// make sure the viewport matches the new window dimensions; note that width and 
@@ -275,8 +273,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-// glfw: whenever the mouse moves, this callback is called
-// -------------------------------------------------------
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	if (firstMouse)
@@ -292,6 +288,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
 		selector.Select(xpos, ypos, Manager::controlPointsManager, xoffset, yoffset);
 	}
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
+		selector.ResetSelected();
+	}
+	
 
 	lastX = xpos;
 	lastY = ypos;
@@ -301,8 +301,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 }
 
-// glfw: whenever the mouse scroll wheel scrolls, this callback is called
-// ----------------------------------------------------------------------
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	camera.ProcessMouseScroll(yoffset);

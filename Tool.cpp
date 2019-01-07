@@ -64,4 +64,9 @@ float Length(glm::vec2 dir) {
 
 float Length_2D(glm::vec3 dir) {
 	return (sqrt(dir.x*dir.x + dir.y*dir.y));
+	glm::dot(dir, dir);
+}
+
+void CombineVector(std::vector<glm::vec3>& a, std::vector<glm::vec3> b) {
+	a.insert(a.begin(), b.begin(), b.end());
 }

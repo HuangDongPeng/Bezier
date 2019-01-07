@@ -3,16 +3,20 @@
 #include "Tool.h"
 
 #define PI 3.1415926
-Koch::Koch(glm::vec3 start, glm::vec3 end, glm::vec3 cameraFront)
+Koch::Koch(std::vector<glm::vec3> points_IN, int level)
 {
-	allPoints = Fold(start, end, 3);
+	std::vector<glm::vec3> tmp;
+	tmp = Fold(points_IN[1], points_IN[0], 1);
+	CombineVector(allPoints, tmp);
+	tmp = Fold(points_IN[2], points_IN[1], level);
+	CombineVector(allPoints, tmp);
+	tmp = Fold(points_IN[0], points_IN[2], level);
+	CombineVector(allPoints, tmp);
 }
-
 
 Koch::~Koch()
 {
 }
-
 
 std::vector<glm::vec3> Koch::Fold(glm::vec3 a, glm::vec3 b, int level) {
 	std::vector<glm::vec3> result;
@@ -38,7 +42,7 @@ std::vector<glm::vec3> Koch::Fold(glm::vec3 a, glm::vec3 b, int level) {
 	else
 	{
 		rotate = atan((a.y - b.y) / (b.x - a.x));
-		if (b.x>a.x) {
+		if (b.x > a.x) {
 			point2.x = point3.x - Length_2D(dir)*cos(rotate + PI / 3);
 			point2.y = point3.y + Length_2D(dir)*sin(rotate + PI / 3);
 		}
@@ -48,8 +52,6 @@ std::vector<glm::vec3> Koch::Fold(glm::vec3 a, glm::vec3 b, int level) {
 			point2.y = point3.y - Length_2D(dir)*sin(rotate + PI / 3);
 		}
 	}
-
-	
 
 	if (level == 1)
 	{
@@ -61,7 +63,6 @@ std::vector<glm::vec3> Koch::Fold(glm::vec3 a, glm::vec3 b, int level) {
 	}
 	else
 	{
-		result.push_back(a);
 		level--;
 		std::vector<glm::vec3> tmp1 = Fold(a, point1, level);
 		std::vector<glm::vec3> tmp2 = Fold(point1, point2, level);
@@ -72,9 +73,8 @@ std::vector<glm::vec3> Koch::Fold(glm::vec3 a, glm::vec3 b, int level) {
 		result.insert(result.end(), tmp2.begin(), tmp2.end());
 		result.insert(result.end(), tmp3.begin(), tmp3.end());
 		result.insert(result.end(), tmp4.begin(), tmp4.end());
-		result.push_back(b);
-
 	}
+
 	return result;
 
 }

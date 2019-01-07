@@ -9,15 +9,14 @@
 class Koch
 {
 public:
-	Koch(glm::vec3 start, glm::vec3 end, glm::vec3 cameraFront);
+	Koch(std::vector<glm::vec3> points, int level);
 	~Koch();
 
-	std::vector<glm::vec3> allPoints;
-	unsigned int VAO = 0, VBO = 0;
-
-	std::vector<glm::vec3> Fold(glm::vec3 a, glm::vec3 b, int level);
 	void Draw();
 
-	
+private:
+	unsigned int VAO = 0, VBO = 0;
+	std::vector<glm::vec3> allPoints;
+	std::vector<glm::vec3> Fold(glm::vec3 a, glm::vec3 b, int level);
 };
 

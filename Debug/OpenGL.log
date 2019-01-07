@@ -1,13 +1,13 @@
 ﻿  main.cpp
-c:\users\dangerous\source\repos\opengl\opengl\main.cpp(141): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(148): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
 c:\users\dangerous\source\repos\opengl\opengl\main.cpp(70): warning C4101: “VBO”: 未引用的局部变量
 c:\users\dangerous\source\repos\opengl\opengl\main.cpp(70): warning C4101: “VAO”: 未引用的局部变量
-c:\users\dangerous\source\repos\opengl\opengl\main.cpp(284): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-c:\users\dangerous\source\repos\opengl\opengl\main.cpp(285): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-c:\users\dangerous\source\repos\opengl\opengl\main.cpp(290): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-c:\users\dangerous\source\repos\opengl\opengl\main.cpp(291): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-c:\users\dangerous\source\repos\opengl\opengl\main.cpp(293): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-c:\users\dangerous\source\repos\opengl\opengl\main.cpp(296): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-c:\users\dangerous\source\repos\opengl\opengl\main.cpp(297): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-c:\users\dangerous\source\repos\opengl\opengl\main.cpp(308): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(290): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(291): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(296): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(297): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(299): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(306): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(307): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(318): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
   OpenGL.vcxproj -> C:\Users\Dangerous\source\repos\OpenGL\Debug\OpenGL.exe
