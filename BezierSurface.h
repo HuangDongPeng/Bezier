@@ -20,7 +20,9 @@ public:
 	std::vector<glm::vec2> allTexCoords;
 	void DrawCurversControlPoints();
 	void DrawSurface();
-	void DrawCurvers();
+	void DrawCurvers(bool isDrawControlPoint);
+	void DrawBaseCurvers(bool isDrawControlPoint);
+
 	void DrawPoints();
 
 

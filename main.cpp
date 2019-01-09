@@ -81,9 +81,9 @@ int main() {
 	glm::vec3 controlPoint5(0.0f, 0.0f, 0.0f);
 	glm::vec3 controlPoint6(1.0f, 0.0f, 0.0f);
 
-	glm::vec3 controlPoint7(-1.0, 0.0f, 0.0f);
-	glm::vec3 controlPoint8(0.0, 0.0f, 0.0f);
-	glm::vec3 controlPoint9(1.0, 0.0f, 0.0f);
+	glm::vec3 controlPoint7(-1.0, -1.0f, 0.0f);
+	glm::vec3 controlPoint8(0.0, -1.0f, 0.0f);
+	glm::vec3 controlPoint9(1.0, -1.0f, 0.0f);
 
 	Shader shader("Bezier.vs", "Bezier.fs");
 	pointsVector.push_back(controlPoint1);
@@ -180,10 +180,10 @@ int main() {
 		shader.setMat4("view", view);
 		shader.setMat4("projection", projection);
 
-		bezierSurface.DrawCurversControlPoints();
-		bezierSurface.DrawCurvers();
+		//bezierSurface.DrawCurversControlPoints();
+		bezierSurface.DrawBaseCurvers(true);
+		//bezierSurface.DrawCurvers(true);
 		bezierSurface.DrawSurface();
-		//bezierSurface.DrawSurface();
 
 //		
 //#pragma region lighting

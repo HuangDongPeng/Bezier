@@ -154,9 +154,33 @@ void BezierSurface::DrawSurface() {
 	glPointSize(1);
 }
 
-void BezierSurface::DrawCurvers() {
-	for (int i = 0; i < allCurvers.size(); ++i) {
-		allCurvers[i].DrawCurve();
+void BezierSurface::DrawCurvers(bool isDrawControlPoint) {
+	if (isDrawControlPoint) {
+		for (int i = 0; i < allCurvers.size(); ++i) {
+			allCurvers[i].DrawCurve();
+			allCurvers[i].DrawControlPoints();
+		}
+	}
+	else
+	{
+		for (int i = 0; i < allCurvers.size(); ++i) {
+			allCurvers[i].DrawCurve();
+		}
+	}
+}
+
+void BezierSurface::DrawBaseCurvers(bool isDrawControlPoint) {
+	if (isDrawControlPoint) {
+		for (int i = 0; i < baseCurvers.size(); ++i) {
+			(*baseCurvers[i]).DrawCurve();
+			(*baseCurvers[i]).DrawControlPoints();
+		}
+	}
+	else
+	{
+		for (int i = 0; i < baseCurvers.size(); ++i) {
+			(*baseCurvers[i]).DrawCurve();
+		}
 	}
 }
 
