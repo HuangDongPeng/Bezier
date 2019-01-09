@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "BezierSurface.h"
 #include "Tool.h"
-BezierSurface::BezierSurface(std::vector<BezierCurver> baseCurvers)
+
+BezierSurface::BezierSurface(std::vector<BezierCurver*> baseCurvers)
 {
-	lerpStep = baseCurvers[0].lerpStep;
+	lerpStep = (*baseCurvers[0]).lerpStep;
 	this->baseCurvers = baseCurvers;
 	InitSurface();
 }
@@ -13,11 +14,11 @@ BezierSurface::~BezierSurface()
 }
 
 void BezierSurface::InitSurface() {
-
-	for (int i = 0; i < baseCurvers[0].allPoints.size(); i++) {
+	allPoints.clear();
+	for (int i = 0; i < (*baseCurvers[0]).allPoints.size(); i++) {
 		std::vector<glm::vec3> tmpPoints;
 		for (int curverIndex = 0; curverIndex < baseCurvers.size(); ++curverIndex) {
-			tmpPoints.push_back(baseCurvers[curverIndex].allPoints[i]);
+			tmpPoints.push_back((*baseCurvers[curverIndex]).allPoints[i]);
 		}
 
 		BezierCurver newBezierCurver(tmpPoints, lerpStep);
@@ -156,6 +157,12 @@ void BezierSurface::DrawSurface() {
 void BezierSurface::DrawCurvers() {
 	for (int i = 0; i < allCurvers.size(); ++i) {
 		allCurvers[i].DrawCurve();
+	}
+}
+
+void BezierSurface::DrawCurversControlPoints() {
+	for (int i = 0; i < allCurvers.size(); ++i) {
+		allCurvers[i].DrawControlPoints();
 	}
 }
 

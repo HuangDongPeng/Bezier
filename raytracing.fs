@@ -64,6 +64,7 @@ vec4 trace(vec3 origin, vec3 dir) {
   return vec4(0.0, 0.0, 0.0, 1.0);
 }
 
+
 void main(void) {
   vec2 pos = texcoord;
   vec3 dir = mix(mix(ray00, ray01, pos.y), mix(ray10, ray11, pos.y), pos.x);

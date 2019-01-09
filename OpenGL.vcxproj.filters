@@ -64,6 +64,9 @@
     <Filter Include="资源文件\Shaders\Lighting\Raytracing">
       <UniqueIdentifier>{8456ff09-8843-4bf3-9cc9-b24e656dd5c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Shaders\Lighting\baseLightingModel">
+      <UniqueIdentifier>{82bb03fc-22f9-42a2-bd01-857f976a1113}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -292,6 +295,30 @@
     </None>
     <None Include="framebufferTest.fs">
       <Filter>资源文件\Shaders\Lighting\Raytracing</Filter>
+    </None>
+    <None Include="phone.fs">
+      <Filter>资源文件\Shaders\Lighting\baseLightingModel</Filter>
+    </None>
+    <None Include="phone.vs">
+      <Filter>资源文件\Shaders\Lighting\baseLightingModel</Filter>
+    </None>
+    <None Include="blinPhone.vs">
+      <Filter>资源文件\Shaders\Lighting\baseLightingModel</Filter>
+    </None>
+    <None Include="blinPhone.fs">
+      <Filter>资源文件\Shaders\Lighting\baseLightingModel</Filter>
+    </None>
+    <None Include="lambert.vs">
+      <Filter>资源文件\Shaders\Lighting\baseLightingModel</Filter>
+    </None>
+    <None Include="lambert.fs">
+      <Filter>资源文件\Shaders\Lighting\baseLightingModel</Filter>
+    </None>
+    <None Include="light.fs">
+      <Filter>资源文件\Shaders\Lighting\baseLightingModel</Filter>
+    </None>
+    <None Include="light.vs">
+      <Filter>资源文件\Shaders\Lighting\baseLightingModel</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

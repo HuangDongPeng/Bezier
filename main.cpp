@@ -66,7 +66,6 @@ int main() {
 	glfwSetCursorPosCallback(window, mouse_callback);
 
 	glEnable(GL_DEPTH_TEST);
-	unsigned int texture1 = loadTexture("awesomeface.png");
 
 #pragma endregion
 
@@ -74,9 +73,9 @@ int main() {
 	std::vector<glm::vec3> pointsVector;
 	unsigned int VBO, VAO;
 
-	glm::vec3 controlPoint1(-1.0f, 1.5f, 1.0f);
+	glm::vec3 controlPoint1(-1.0f, 1.0f, 1.0f);
 	glm::vec3 controlPoint2(0.0f, 1.0f, 1.5f);
-	glm::vec3 controlPoint3(1.0f, 0.5f, -1.0f);
+	glm::vec3 controlPoint3(1.0f, 1.0f, -1.0f);
 
 	glm::vec3 controlPoint4(-1.0f, 0.0f, 0.0f);
 	glm::vec3 controlPoint5(0.0f, 0.0f, 0.0f);
@@ -90,7 +89,7 @@ int main() {
 	pointsVector.push_back(controlPoint1);
 	pointsVector.push_back(controlPoint2);
 	pointsVector.push_back(controlPoint3);
-	pointsVector.push_back(controlPoint4);
+	//pointsVector.push_back(controlPoint4);
 
 	BezierCurver bezierCurver1(pointsVector, 0.1f);
 
@@ -98,7 +97,7 @@ int main() {
 	pointsVector.push_back(controlPoint4);
 	pointsVector.push_back(controlPoint5);
 	pointsVector.push_back(controlPoint6);
-	pointsVector.push_back(controlPoint7);
+	//pointsVector.push_back(controlPoint7);
 
 
 	BezierCurver bezierCurver2(pointsVector, 0.1f);
@@ -122,25 +121,117 @@ int main() {
 #pragma endregion
 
 #pragma region BezierSurface
-	std::vector<BezierCurver> baseCurvers;
-	baseCurvers.push_back(bezierCurver1);
-	baseCurvers.push_back(bezierCurver2);
-	baseCurvers.push_back(bezierCurver3);
+	std::vector<BezierCurver*> baseCurvers;
+	baseCurvers.push_back(&bezierCurver1);
+	baseCurvers.push_back(&bezierCurver2);
+	baseCurvers.push_back(&bezierCurver3);
 
 	BezierSurface bezierSurface(baseCurvers);
 
 #pragma endregion
 	Raytracing raytracing(SCR_WIDTH, SCR_HEIGHT, projection, view,camera);
+	Tool tool;
+
+	Shader blinPhoneShader("blinPhone.vs", "blinPhone.fs");
+	Shader phoneShader("phone.vs", "phone.fs");
+	Shader lambertShader("lambert.vs", "lambert.fs");
+	Shader lightShader("light.vs", "light.fs");
+
+	unsigned int smileTexture = loadTexture("awesomeface.png");
+	unsigned int containerTexture = loadTexture("container.jpg");
+	unsigned int container2Texture = loadTexture("container2.png");
+
+
+
+	blinPhoneShader.use();
+	blinPhoneShader.setInt("texture1", 2);
+
+	phoneShader.use();
+	phoneShader.setInt("texture1", 1);
+
+	lambertShader.use();
+	lambertShader.setInt("texture1", 0);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, containerTexture);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, smileTexture);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, container2Texture);
+
+	glm::vec3 lightPos(5, 5, 5);
+	glm::vec3 lightColor(0.5, 0.5, 0.5);
 
 	while (!glfwWindowShouldClose(window)) {
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		view = camera.GetViewMatrix();
-		raytracing.Draw();
+		glm::mat4 model(1);
 
+		shader.use();
+		shader.setMat4("model", model);
+		shader.setMat4("view", view);
+		shader.setMat4("projection", projection);
+
+		bezierSurface.DrawCurversControlPoints();
+		bezierSurface.DrawCurvers();
+		bezierSurface.DrawSurface();
+		//bezierSurface.DrawSurface();
+
+//		
+//#pragma region lighting
+//
+//
+//		blinPhoneShader.use();
+//		blinPhoneShader.setMat4("model", model);
+//		blinPhoneShader.setMat4("view", view);
+//		blinPhoneShader.setMat4("projection", projection);
+//		blinPhoneShader.setVec3("lightPos", lightPos);
+//		blinPhoneShader.setVec3("lightColor", lightColor);
+//		blinPhoneShader.setVec3("viewPos", camera.Position);
+//
+//		phoneShader.use();
+//		model = glm::mat4(1);
+//		model = glm::translate(model, glm::vec3(3, 0, 0));
+//		phoneShader.setMat4("model", model);
+//		phoneShader.setMat4("view", view);
+//		phoneShader.setMat4("projection", projection);
+//		phoneShader.setVec3("lightPos", lightPos);
+//		phoneShader.setVec3("lightColor", lightColor);
+//		phoneShader.setVec3("viewPos", camera.Position);
+//
+//		lambertShader.use();
+//		model = glm::mat4(1);
+//		model = glm::translate(model, glm::vec3(3, 3, 0));
+//		lambertShader.setMat4("model", model);
+//		lambertShader.setMat4("view", view);
+//		lambertShader.setMat4("projection", projection);
+//		lambertShader.setVec3("lightPos", lightPos);
+//		lambertShader.setVec3("lightColor", lightColor);
+//		lambertShader.setVec3("viewPos", camera.Position);
+//
+//		lightShader.use();
+//		model = glm::mat4(1);
+//		model = glm::translate(model, lightPos);
+//		lightShader.setMat4("model", model);
+//		lightShader.setMat4("view", view);
+//		lightShader.setMat4("projection", projection);
+//		lightShader.setVec3("lightColor", lightColor);
+//
+//		tool.RenderCube(blinPhoneShader);
+//		tool.RenderCube(phoneShader);
+//		tool.RenderCube(lambertShader);
+//		tool.RenderCube(lightShader);
+//		//raytracing.Draw();
+//#pragma endregion
+//
 		processInput(window);
 
 		glfwSwapBuffers(window);

@@ -198,6 +198,8 @@
     <None Include="3.1.2.shadow_mapping_depth.vs" />
     <None Include="Bezier.fs" />
     <None Include="Bezier.vs" />
+    <None Include="blinPhone.fs" />
+    <None Include="blinPhone.vs" />
     <None Include="deferredLightBox.fs" />
     <None Include="deferredLightBox.vs" />
     <None Include="deferredShading.fs" />
@@ -219,6 +221,12 @@
     <None Include="HeightMap.vs" />
     <None Include="instancing.fs" />
     <None Include="instancing.vs" />
+    <None Include="lambert.fs" />
+    <None Include="lambert.vs" />
+    <None Include="light.fs" />
+    <None Include="light.vs" />
+    <None Include="phone.fs" />
+    <None Include="phone.vs" />
     <None Include="lighting.fs" />
     <None Include="lighting.vs" />
     <None Include="ModelLoading.fs" />
