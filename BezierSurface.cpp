@@ -13,6 +13,20 @@ BezierSurface::~BezierSurface()
 {
 }
 
+void BezierSurface::UpdateAllpoints() {
+	allPoints.clear();
+	for (int i = 0; i < (*baseCurvers[0]).allPoints.size(); i++) {
+		std::vector<glm::vec3> tmpPoints;
+		for (int curverIndex = 0; curverIndex < baseCurvers.size(); ++curverIndex) {
+			tmpPoints.push_back((*baseCurvers[curverIndex]).allPoints[i]);
+		}
+
+		BezierCurver newBezierCurver(tmpPoints, lerpStep);
+		allCurvers.push_back(newBezierCurver);
+		allPoints.insert(allPoints.end(), newBezierCurver.allPoints.begin(), newBezierCurver.allPoints.end());
+	}
+}
+
 void BezierSurface::InitSurface() {
 	allPoints.clear();
 	for (int i = 0; i < (*baseCurvers[0]).allPoints.size(); i++) {
@@ -143,6 +157,7 @@ void BezierSurface::DrawSurface() {
 
 		glBindVertexArray(0);
 	}
+	UpdateAllpoints();
 	glBindVertexArray(surfaceVAO);
 	glDrawElements(GL_TRIANGLES, EBOCount, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, surfaceVBO);

@@ -14,7 +14,8 @@ public:
 
 	std::vector<BezierCurver*> baseCurvers;
 	std::vector<BezierCurver> allCurvers;//基础曲线
-
+	
+	void UpdateAllpoints();
 	std::vector<glm::vec3> allPoints;//所有控制点
 	std::vector<glm::vec3> allNormals;
 	std::vector<glm::vec2> allTexCoords;
