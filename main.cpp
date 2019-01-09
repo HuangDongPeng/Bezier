@@ -15,6 +15,7 @@
 #include "Tool.h"
 #include "Selector.h"
 #include "Koch.h"
+#include "Raytracing.h"
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -24,15 +25,14 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
-void renderCube();
 
 // settings
 const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
-Selector selector(SCR_WIDTH,SCR_HEIGHT,view, projection);
+Selector selector(SCR_WIDTH, SCR_HEIGHT, view, projection);
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f,5.0));
+Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
 float lastX = (float)SCR_WIDTH / 2.0;
 float lastY = (float)SCR_HEIGHT / 2.0;
 bool firstMouse = true;
@@ -65,7 +65,12 @@ int main() {
 
 	glfwSetCursorPosCallback(window, mouse_callback);
 
+	glEnable(GL_DEPTH_TEST);
+	unsigned int texture1 = loadTexture("awesomeface.png");
+
 #pragma endregion
+
+#pragma region InitShape
 	std::vector<glm::vec3> pointsVector;
 	unsigned int VBO, VAO;
 
@@ -82,13 +87,12 @@ int main() {
 	glm::vec3 controlPoint9(1.0, 0.0f, 0.0f);
 
 	Shader shader("Bezier.vs", "Bezier.fs");
-
 	pointsVector.push_back(controlPoint1);
 	pointsVector.push_back(controlPoint2);
 	pointsVector.push_back(controlPoint3);
 	pointsVector.push_back(controlPoint4);
 
-	BezierCurver bezierCurver1(pointsVector, 0.05f);
+	BezierCurver bezierCurver1(pointsVector, 0.1f);
 
 	pointsVector.clear();
 	pointsVector.push_back(controlPoint4);
@@ -96,7 +100,8 @@ int main() {
 	pointsVector.push_back(controlPoint6);
 	pointsVector.push_back(controlPoint7);
 
-	BezierCurver bezierCurver2(pointsVector, 0.05f);
+
+	BezierCurver bezierCurver2(pointsVector, 0.1f);
 
 	pointsVector.clear();
 	pointsVector.push_back(controlPoint7);
@@ -111,59 +116,32 @@ int main() {
 	pointsVector.push_back(kochPoint1);
 	pointsVector.push_back(kochPoint2);
 	pointsVector.push_back(kochPoint3);
-	
+
 	Koch koch(pointsVector, 1);
-
-
-#pragma region BezierSurface
-	//std::vector<BezierCurver> baseCurvers;
-	//baseCurvers.push_back(bezierCurver1);
-	//baseCurvers.push_back(bezierCurver2);
-	//baseCurvers.push_back(bezierCurver3);
-
-	//BezierSurface bezierSurface(baseCurvers);
-
+	unsigned char* pix = new unsigned char[SCR_WIDTH*SCR_HEIGHT * 3];
 #pragma endregion
 
-	//int pointsSize = VectorSizeByte(controlPointManager);
+#pragma region BezierSurface
+	std::vector<BezierCurver> baseCurvers;
+	baseCurvers.push_back(bezierCurver1);
+	baseCurvers.push_back(bezierCurver2);
+	baseCurvers.push_back(bezierCurver3);
 
-	//glGenVertexArrays(1, &VAO);
-	//glGenBuffers(1, &VBO);
+	BezierSurface bezierSurface(baseCurvers);
 
-	//glBindVertexArray(VAO);
-	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBufferData(GL_ARRAY_BUFFER, pointsSize, &controlPointManager[0], GL_DYNAMIC_DRAW);
-
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
-	//glEnableVertexAttribArray(0);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//glBindVertexArray(0);
-
-	unsigned int texture1 = loadTexture("awesomeface.png");
-
-	shader.setInt("texture1", 1);
+#pragma endregion
+	Raytracing raytracing(SCR_WIDTH, SCR_HEIGHT, projection, view,camera);
 
 	while (!glfwWindowShouldClose(window)) {
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		processInput(window);
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-		shader.use();
 		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		view = camera.GetViewMatrix();
-		glm::mat4 model = glm::mat4(1.0);
+		raytracing.Draw();
 
-		shader.setMat4("projection", projection);
-		shader.setMat4("view", view);
-		shader.setMat4("model", model);
-		
-		bezierCurver1.DrawControlPoints();
-		bezierCurver1.DrawCurve();
-		//koch.Draw();
+		processInput(window);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -174,78 +152,6 @@ int main() {
 
 }
 
-unsigned int cubeVAO = 0;
-unsigned int cubeVBO = 0;
-void renderCube()
-{
-	// initialize (if necessary)
-	if (cubeVAO == 0)
-	{
-		float vertices[] = {
-			// back face
-			-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
-			 1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
-			 1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
-			 1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
-			-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
-			-1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
-			// front face
-			-1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
-			 1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
-			 1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
-			 1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
-			-1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 1.0f, // top-left
-			-1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
-			// left face
-			-1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
-			-1.0f,  1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-left
-			-1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
-			-1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
-			-1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-right
-			-1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
-			// right face
-			 1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
-			 1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
-			 1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right         
-			 1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
-			 1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
-			 1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left     
-			// bottom face
-			-1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
-			 1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-left
-			 1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
-			 1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
-			-1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f, // bottom-right
-			-1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
-			// top face
-			-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
-			 1.0f,  1.0f , 1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
-			 1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right     
-			 1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
-			-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
-			-1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left        
-		};
-		glGenVertexArrays(1, &cubeVAO);
-		glGenBuffers(1, &cubeVBO);
-		// fill buffer
-		glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-		// link vertex attributes
-		glBindVertexArray(cubeVAO);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-	}
-	// render Cube
-	glBindVertexArray(cubeVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
-}
 
 void processInput(GLFWwindow *window)
 {
@@ -291,7 +197,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
 		selector.ResetSelected();
 	}
-	
+
 
 	lastX = xpos;
 	lastY = ypos;
@@ -305,4 +211,5 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	camera.ProcessMouseScroll(yoffset);
 }
+
 

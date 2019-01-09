@@ -123,6 +123,22 @@ public:
 			Zoom = 45.0f;
 	}
 
+	glm::vec3 getEyeRay(float x, float y,glm::mat4 projection,glm::mat4 view) {
+		glm::vec4 tmp(x, y, 0, 1);
+		glm::vec4 tmp2 = glm::inverse(view)*glm::inverse(projection)*tmp;
+		
+		tmp.x = tmp2.x / tmp2.w;
+		tmp.y = tmp2.y / tmp2.w;
+		tmp.z = tmp2.z / tmp2.w;
+
+		
+		glm::vec3 res = tmp;
+		return (res - Position);
+
+		//glm::vec3 res = Front + (glm::mat3(x*glm::tan(glm::radians(Zoom / 2)))*Right) + (glm::mat3(y * 3 / 4 * glm::tan(glm::radians(Zoom / 2)))*Up);
+		return res;
+	}
+
 private:
 	// Calculates the front vector from the Camera's (updated) Euler Angles
 	void updateCameraVectors()

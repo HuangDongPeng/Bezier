@@ -61,6 +61,9 @@
     <Filter Include="资源文件\Shaders\Shape\Bezier">
       <UniqueIdentifier>{dd44b05c-8e4b-423f-8d5e-a41960a78fb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Shaders\Lighting\Raytracing">
+      <UniqueIdentifier>{8456ff09-8843-4bf3-9cc9-b24e656dd5c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -96,6 +99,9 @@
     <ClInclude Include="Koch.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Raytracing.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -129,6 +135,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Koch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Raytracing.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -265,6 +274,24 @@
     </None>
     <None Include="Bezier.fs">
       <Filter>资源文件\Shaders\Shape\Bezier</Filter>
+    </None>
+    <None Include="raytracing.vs">
+      <Filter>资源文件\Shaders\Lighting\Raytracing</Filter>
+    </None>
+    <None Include="raytracing.fs">
+      <Filter>资源文件\Shaders\Lighting\Raytracing</Filter>
+    </None>
+    <None Include="squad.vs">
+      <Filter>资源文件\Shaders\Lighting\Raytracing</Filter>
+    </None>
+    <None Include="squad.fs">
+      <Filter>资源文件\Shaders\Lighting\Raytracing</Filter>
+    </None>
+    <None Include="framebufferTest.vs">
+      <Filter>资源文件\Shaders\Lighting\Raytracing</Filter>
+    </None>
+    <None Include="framebufferTest.fs">
+      <Filter>资源文件\Shaders\Lighting\Raytracing</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
