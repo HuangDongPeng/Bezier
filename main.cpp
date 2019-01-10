@@ -16,6 +16,7 @@
 #include "Selector.h"
 #include "Koch.h"
 #include "Raytracing.h"
+#include "PetViewer.h"
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -41,7 +42,10 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+PetViewer petViewer;
 int main() {
+#pragma region Draw
+
 #pragma region WindowInit
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -70,87 +74,80 @@ int main() {
 #pragma endregion
 
 #pragma region InitShape
-	std::vector<glm::vec3> pointsVector;
-	unsigned int VBO, VAO;
+	//std::vector<glm::vec3> pointsVector;
+	//unsigned int VBO, VAO;
 
-	glm::vec3 controlPoint1(-1.0f, 1.0f, 1.0f);
-	glm::vec3 controlPoint2(0.0f, 1.0f, 1.5f);
-	glm::vec3 controlPoint3(1.0f, 1.0f, -1.0f);
+	//glm::vec3 controlPoint1(-1.0f, 1.0f, 1.0f);
+	//glm::vec3 controlPoint2(0.0f, 1.0f, 1.5f);
+	//glm::vec3 controlPoint3(1.0f, 1.0f, -1.0f);
 
-	glm::vec3 controlPoint4(-1.0f, 0.0f, 0.0f);
-	glm::vec3 controlPoint5(0.0f, 0.0f, 0.0f);
-	glm::vec3 controlPoint6(1.0f, 0.0f, 0.0f);
+	//glm::vec3 controlPoint4(-1.0f, 0.0f, 0.0f);
+	//glm::vec3 controlPoint5(0.0f, 0.0f, 0.0f);
+	//glm::vec3 controlPoint6(1.0f, 0.0f, 0.0f);
 
-	glm::vec3 controlPoint7(-1.0, -1.0f, 0.0f);
-	glm::vec3 controlPoint8(0.0, -1.0f, 0.0f);
-	glm::vec3 controlPoint9(1.0, -1.0f, 0.0f);
+	//glm::vec3 controlPoint7(-1.0, -1.0f, 0.0f);
+	//glm::vec3 controlPoint8(0.0, -1.0f, 0.0f);
+	//glm::vec3 controlPoint9(1.0, -1.0f, 0.0f);
 
-	Shader shader("Bezier.vs", "Bezier.fs");
-	pointsVector.push_back(controlPoint1);
-	pointsVector.push_back(controlPoint2);
-	pointsVector.push_back(controlPoint3);
+	//Shader shader("Bezier.vs", "Bezier.fs");
+	//pointsVector.push_back(controlPoint1);
+	//pointsVector.push_back(controlPoint2);
+	//pointsVector.push_back(controlPoint3);
+	////pointsVector.push_back(controlPoint4);
+
+	//BezierCurver bezierCurver1(pointsVector, 0.1f);
+
+	//pointsVector.clear();
 	//pointsVector.push_back(controlPoint4);
+	//pointsVector.push_back(controlPoint5);
+	//pointsVector.push_back(controlPoint6);
+	////pointsVector.push_back(controlPoint7);
 
-	BezierCurver bezierCurver1(pointsVector, 0.1f);
 
-	pointsVector.clear();
-	pointsVector.push_back(controlPoint4);
-	pointsVector.push_back(controlPoint5);
-	pointsVector.push_back(controlPoint6);
+	//BezierCurver bezierCurver2(pointsVector, 0.1f);
+
+	//pointsVector.clear();
 	//pointsVector.push_back(controlPoint7);
+	//pointsVector.push_back(controlPoint8);
+	//pointsVector.push_back(controlPoint9);
+	//BezierCurver bezierCurver3(pointsVector, 0.1f);
 
+	//pointsVector.clear();
+	//glm::vec3 kochPoint1(-1.0, 0.0f, 0.0f);
+	//glm::vec3 kochPoint2(1.0, 0.0f, 0.0f);
+	//glm::vec3 kochPoint3(0.0, 1.0f, 0.0f);
+	//pointsVector.push_back(kochPoint1);
+	//pointsVector.push_back(kochPoint2);
+	//pointsVector.push_back(kochPoint3);
 
-	BezierCurver bezierCurver2(pointsVector, 0.1f);
-
-	pointsVector.clear();
-	pointsVector.push_back(controlPoint7);
-	pointsVector.push_back(controlPoint8);
-	pointsVector.push_back(controlPoint9);
-	BezierCurver bezierCurver3(pointsVector, 0.1f);
-
-	pointsVector.clear();
-	glm::vec3 kochPoint1(-1.0, 0.0f, 0.0f);
-	glm::vec3 kochPoint2(1.0, 0.0f, 0.0f);
-	glm::vec3 kochPoint3(0.0, 1.0f, 0.0f);
-	pointsVector.push_back(kochPoint1);
-	pointsVector.push_back(kochPoint2);
-	pointsVector.push_back(kochPoint3);
-
-	Koch koch(pointsVector, 1);
-	unsigned char* pix = new unsigned char[SCR_WIDTH*SCR_HEIGHT * 3];
+	//Koch koch(pointsVector, 1);
+	//unsigned char* pix = new unsigned char[SCR_WIDTH*SCR_HEIGHT * 3];
 #pragma endregion
 
 #pragma region BezierSurface
-	std::vector<BezierCurver*> baseCurvers;
-	baseCurvers.push_back(&bezierCurver1);
-	baseCurvers.push_back(&bezierCurver2);
-	baseCurvers.push_back(&bezierCurver3);
+	//std::vector<BezierCurver*> baseCurvers;
+	//baseCurvers.push_back(&bezierCurver1);
+	//baseCurvers.push_back(&bezierCurver2);
+	//baseCurvers.push_back(&bezierCurver3);
 
-	BezierSurface bezierSurface(baseCurvers);
+	//BezierSurface bezierSurface(baseCurvers);
 
 #pragma endregion
-	Raytracing raytracing(SCR_WIDTH, SCR_HEIGHT, projection, view,camera);
-	Tool tool;
 
-	Shader blinPhoneShader("blinPhone.vs", "blinPhone.fs");
-	Shader phoneShader("phone.vs", "phone.fs");
-	Shader lambertShader("lambert.vs", "lambert.fs");
-	Shader lightShader("light.vs", "light.fs");
+#pragma region loadTex
 
 	unsigned int smileTexture = loadTexture("awesomeface.png");
 	unsigned int containerTexture = loadTexture("container.jpg");
 	unsigned int container2Texture = loadTexture("container2.png");
 
+	//blinPhoneShader.use();
+	//blinPhoneShader.setInt("texture1", 2);
 
+	//phoneShader.use();
+	//phoneShader.setInt("texture1", 1);
 
-	blinPhoneShader.use();
-	blinPhoneShader.setInt("texture1", 2);
-
-	phoneShader.use();
-	phoneShader.setInt("texture1", 1);
-
-	lambertShader.use();
-	lambertShader.setInt("texture1", 0);
+	//lambertShader.use();
+	//lambertShader.setInt("texture1", 0);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, containerTexture);
@@ -160,9 +157,27 @@ int main() {
 
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, container2Texture);
+#pragma endregion
+
+#pragma region Instance
+	Raytracing raytracing(SCR_WIDTH, SCR_HEIGHT, projection, view, camera);
+	Tool tool;
+
+	Shader blinPhoneShader("blinPhone.vs", "blinPhone.fs");
+	Shader phoneShader("phone.vs", "phone.fs");
+	Shader lambertShader("lambert.vs", "lambert.fs");
+	Shader lightShader("light.vs", "light.fs");
+	Shader petShader("pet.vs", "pet.fs");
+
 
 	glm::vec3 lightPos(5, 5, 5);
 	glm::vec3 lightColor(0.5, 0.5, 0.5);
+
+	
+#pragma endregion
+	petViewer.ReadFile();
+
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	while (!glfwWindowShouldClose(window)) {
 		float currentFrame = glfwGetTime();
@@ -175,15 +190,34 @@ int main() {
 		view = camera.GetViewMatrix();
 		glm::mat4 model(1);
 
-		shader.use();
-		shader.setMat4("model", model);
-		shader.setMat4("view", view);
-		shader.setMat4("projection", projection);
 
-		//bezierSurface.DrawCurversControlPoints();
-		bezierSurface.DrawBaseCurvers(true);
-		//bezierSurface.DrawCurvers(true);
-		bezierSurface.DrawSurface();
+		petShader.use();
+		petShader.setMat4("model", model);
+		petShader.setMat4("view", view);
+		petShader.setMat4("projection", projection);
+		petShader.setBool("isDrawBezierSurface", true);
+
+		petViewer.DrawBezierSurface();
+		//petViewer.DrawAllTriangles();
+
+		//bezierSurface.DrawSurface();
+
+	/*	model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-2.0, 0, 0));
+		petShader.setMat4("model", model);
+		petShader.setMat4("view", view);
+		petShader.setMat4("projection", projection);
+		petViewer.DrawPoints(10);*/
+
+		//shader.use();
+		//shader.setMat4("model", model);
+		//shader.setMat4("view", view);
+		//shader.setMat4("projection", projection);
+
+		////bezierSurface.DrawCurversControlPoints();
+		//bezierSurface.DrawBaseCurvers(true);
+		////bezierSurface.DrawCurvers(true);
+		//bezierSurface.DrawSurface();
 
 //		
 //#pragma region lighting
@@ -237,8 +271,8 @@ int main() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	//glDeleteVertexArrays(1, &VAO);
-	//glDeleteBuffers(1, &VBO);
+#pragma endregion
+
 	return 0;
 
 }
@@ -261,6 +295,15 @@ void processInput(GLFWwindow *window)
 		camera.ProcessKeyboard(UP, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		camera.ProcessKeyboard(DOWN, deltaTime);
+
+	if (glfwGetKey(window, GLFW_KEY_KP_ADD) == GLFW_PRESS)
+	{
+		petViewer.SetZ(petViewer.GetZ() + 1);
+	}
+	if (glfwGetKey(window, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS)
+	{
+		petViewer.SetZ(petViewer.GetZ() - 1);
+	}
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

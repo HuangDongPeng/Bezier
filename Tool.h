@@ -2,6 +2,7 @@
 #include<vector>	
 #include "glm/glm.hpp"
 #include "Shader.h"
+#include <vector>
 class Manager {
 public:
 	static std::vector<glm::vec3*> controlPointsManager;
@@ -89,3 +90,8 @@ float Length(glm::vec2 dir);
 void CombineVector(std::vector<glm::vec3>& a, std::vector<glm::vec3> b);
 
 float Length_2D(glm::vec3 dir);
+
+void SetVertiesArr(unsigned int &VAO, unsigned int &VBO, std::vector <glm::vec3*> &points);
+
+void SetVertiesArrWithEBO(unsigned int &VAO, unsigned int &VBO, unsigned int &EBO, std::vector <glm::vec3*> &VBOpoints, std::vector <glm::vec3> &EBOpoints);
+	;

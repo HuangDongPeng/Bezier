@@ -70,3 +70,38 @@ float Length_2D(glm::vec3 dir) {
 void CombineVector(std::vector<glm::vec3>& a, std::vector<glm::vec3> b) {
 	a.insert(a.begin(), b.begin(), b.end());
 }
+
+void SetVertiesArr(unsigned int &VAO, unsigned int &VBO, std::vector <glm::vec3*> &points)
+{
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points) * sizeof(glm::vec3), &(*points[0]), GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glBindVertexArray(0);
+}
+
+void SetVertiesArrWithEBO(unsigned int &VAO, unsigned int &VBO, unsigned int &EBO, std::vector <glm::vec3*> &VBOpoints, std::vector <glm::vec3> &EBOpoints)
+{
+	glGenVertexArrays(1, &VAO);
+
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*EBOpoints.size(), &EBOpoints[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, VBOpoints.size() * sizeof(glm::vec3), &(*VBOpoints[0]), GL_DYNAMIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}

@@ -23,6 +23,7 @@ public:
 	void DrawSurface();
 	void DrawCurvers(bool isDrawControlPoint);
 	void DrawBaseCurvers(bool isDrawControlPoint);
+	void DrawSurfaceStatic();
 
 	void DrawPoints();
 

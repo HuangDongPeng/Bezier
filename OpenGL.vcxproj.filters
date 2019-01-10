@@ -67,6 +67,9 @@
     <Filter Include="资源文件\Shaders\Lighting\baseLightingModel">
       <UniqueIdentifier>{82bb03fc-22f9-42a2-bd01-857f976a1113}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Shaders\pet">
+      <UniqueIdentifier>{f2770443-11d5-451b-9fce-101c224490bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -105,6 +108,9 @@
     <ClInclude Include="Raytracing.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PetViewer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -141,6 +147,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Raytracing.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PetViewer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -319,6 +328,12 @@
     </None>
     <None Include="light.vs">
       <Filter>资源文件\Shaders\Lighting\baseLightingModel</Filter>
+    </None>
+    <None Include="pet.vs">
+      <Filter>资源文件\Shaders\pet</Filter>
+    </None>
+    <None Include="pet.fs">
+      <Filter>资源文件\Shaders\pet</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
