@@ -195,10 +195,10 @@ int main() {
 		petShader.setMat4("model", model);
 		petShader.setMat4("view", view);
 		petShader.setMat4("projection", projection);
-		petShader.setBool("isDrawBezierSurface", true);
+		petShader.setBool("isDrawBezierSurface", false);
 
-		petViewer.DrawBezierSurface();
-		//petViewer.DrawAllTriangles();
+		//petViewer.DrawBezierSurface();
+		petViewer.DrawAllTriangles();
 
 		//bezierSurface.DrawSurface();
 

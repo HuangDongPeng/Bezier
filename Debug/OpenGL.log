@@ -1,5 +1,11 @@
-﻿  PetViewer.cpp
-c:\users\dangerous\source\repos\opengl\opengl\petviewer.cpp(29): warning C4305: “初始化”: 从“double”到“float”截断
-c:\users\dangerous\source\repos\opengl\opengl\petviewer.cpp(24): warning C4101: “tmpPos”: 未引用的局部变量
-c:\users\dangerous\source\repos\opengl\opengl\petviewer.cpp(35): warning C4101: “pointForBezier”: 未引用的局部变量
+﻿  main.cpp
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(183): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(320): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(321): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(326): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(327): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(329): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(336): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(337): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\main.cpp(346): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
   OpenGL.vcxproj -> C:\Users\Dangerous\source\repos\OpenGL\Debug\OpenGL.exe
