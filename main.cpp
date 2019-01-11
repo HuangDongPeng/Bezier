@@ -33,7 +33,7 @@ const unsigned int SCR_HEIGHT = 720;
 Selector selector(SCR_WIDTH, SCR_HEIGHT, view, projection);
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = (float)SCR_WIDTH / 2.0;
 float lastY = (float)SCR_HEIGHT / 2.0;
 bool firstMouse = true;
@@ -42,7 +42,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-PetViewer petViewer;
+PetViewer petViewer(projection,view,SCR_WIDTH,SCR_HEIGHT);
 int main() {
 #pragma region Draw
 
@@ -176,30 +176,47 @@ int main() {
 	
 #pragma endregion
 	petViewer.ReadFile();
+	projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+	view = camera.GetViewMatrix();
+	glm::mat4 model(1);
 
+	petViewer.CalculateScePos();
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
+	camera.canMove = false;
 	while (!glfwWindowShouldClose(window)) {
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		view = camera.GetViewMatrix();
-		glm::mat4 model(1);
-
-
+	
+		//view = glm::mat4(1);
 		petShader.use();
 		petShader.setMat4("model", model);
 		petShader.setMat4("view", view);
 		petShader.setMat4("projection", projection);
 		petShader.setBool("isDrawBezierSurface", false);
-
-		//petViewer.DrawBezierSurface();
 		petViewer.DrawAllTriangles();
 
+
+		/*glm::mat4 model(1);
+		petShader.use();
+		model = glm::translate(model, glm::vec3(-1, 0, 0));
+		petShader.setMat4("model", model);
+		petShader.setMat4("view", view);
+		petShader.setMat4("projection", projection);
+		petShader.setBool("isDrawBezierSurface", true);
+		petViewer.DrawBezierSurface();
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(1, 0, 0));
+		petShader.setMat4("model", model);
+		petShader.setMat4("view", view);
+		petShader.setMat4("projection", projection);
+		petShader.setBool("isDrawBezierSurface", false);
+		petViewer.DrawAllTriangles();
+*/
 		//bezierSurface.DrawSurface();
 
 	/*	model = glm::mat4(1);
@@ -300,7 +317,7 @@ void processInput(GLFWwindow *window)
 	{
 		petViewer.SetZ(petViewer.GetZ() + 1);
 	}
-	if (glfwGetKey(window, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS) 
 	{
 		petViewer.SetZ(petViewer.GetZ() - 1);
 	}
@@ -315,6 +332,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
+	petViewer.ShowCurMsg(xpos, ypos);
+
 	if (firstMouse)
 	{
 		lastX = xpos;
@@ -332,13 +351,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 		selector.ResetSelected();
 	}
 
-
 	lastX = xpos;
 	lastY = ypos;
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
 		camera.ProcessMouseMovement(xoffset, yoffset);
-
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)

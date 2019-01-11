@@ -5,11 +5,7 @@
 
 using namespace std;
 
-
-float Max(float a, float b) {
-	return a > b ? a : b;
-}
-
+bool isBezier = false;
 void PetViewer::ReadFile() {
 
 	//读文件
@@ -43,7 +39,7 @@ void PetViewer::ReadFile() {
 		xScreen += step;
 		xCount++;
 
-		if (xCount % 20 == 0 && yCount % 20 == 0) {
+		if (isBezier&&xCount % 20 == 0 && yCount % 20 == 0) {
 			vecForBezier.push_back(glm::vec3(xScreen, yScreen, *tmpFloat));
 		}
 
@@ -63,8 +59,11 @@ void PetViewer::ReadFile() {
 			if (yCount == COWNUM)
 			{
 				//读完一面
-				surfaceVec[zCount] = new BezierSurface(bezierCurvers);
-				bezierCurvers.clear();
+				if (bezierCurvers.size() != 0) {
+					surfaceVec[zCount] = new BezierSurface(bezierCurvers);
+					bezierCurvers.clear();
+				}
+
 				yScreen = 1;
 				allPointsArr[zCount] = *tmpVec;
 				tmpVec = new vector<glm::vec3>();
@@ -132,14 +131,68 @@ void PetViewer::DrawAllTriangles() {
 
 void PetViewer::DrawBezierSurface() {
 	//bezierSurface->DrawSurfaceStatic();
-	surfaceVec[curZ]->DrawSurfaceStatic();
+	if (surfaceVec[curZ] != nullptr) {
+		surfaceVec[curZ]->DrawSurfaceStatic();
+	}
 }
 
 
-PetViewer::PetViewer()
+PetViewer::PetViewer(glm::mat4 &projection_IN,glm::mat4 &view_IN,int screenWidth_IN,int screenHeight_IN)
+	:projection(&projection_IN)
+	,view(&view_IN)
+	,screenWidth(screenWidth_IN)
+	,screenHeight(screenHeight_IN)
 {
+
+}
+//
+void PetViewer::CalculateScePos() {
+	glm::vec3 minPos = allPointsArr[0][0];
+	glm::vec3 maxPos = allPointsArr[0][(RAWNUM*COWNUM)-1];
+	
+	minPos.z = 0;
+	maxPos.z = 0;
+
+	glm::vec4 minPosScr = (*projection) * (*view) * glm::vec4(minPos,1.0);
+	glm::vec4 maxPosScr = (*projection) * (*view) * glm::vec4(maxPos, 1.0);
+
+	float x = minPosScr.x / minPosScr.w;
+	float y = minPosScr.y / minPosScr.w;
+	glm::vec2 minPosNDC = glm::vec2(x, y);
+
+	x = maxPosScr.x / maxPosScr.w;
+	y = maxPosScr.y / maxPosScr.w;
+	glm::vec2 maxPosNDC = glm::vec2(x, y);
+
+	x = ((minPosNDC.x + 1)*screenWidth)/2;
+	y = -((minPosNDC.y - 1)*screenHeight)/2;
+	minPixelPos = glm::vec2(x, y);
+
+	x = ((maxPosNDC.x + 1)*screenWidth) / 2;
+	y = -((maxPosNDC.y - 1)*screenHeight) / 2;
+	maxPixelPos = glm::vec2(x, y);
+
+	std::cout << "min x pixed: " << minPixelPos.x;
+	std::cout << "max x pixed: " << maxPixelPos.x;
+	std::cout << "min y pixed: " << minPixelPos.y;
+	std::cout << "max y pixed: " << maxPixelPos.y;
 }
 
+void PetViewer::ShowCurMsg(float xpos,float ypos) {
+	if (xpos<minPixelPos.x || xpos>maxPixelPos.x)
+		return;
+	if (ypos<minPixelPos.y || ypos>maxPixelPos.y)
+		return;
+	float xStep = (maxPixelPos.x - minPixelPos.x) / RAWNUM;
+	float yStep = (maxPixelPos.y - minPixelPos.y) / COWNUM;
+	int xIndex = (xpos - minPixelPos.x) / xStep;
+	int yIndex = (ypos - minPixelPos.y) / yStep;
+	int index = (RAWNUM * yIndex) + xIndex;
+	cout << " x: " <<xIndex;	
+	cout << " y: " << yIndex;
+	cout << " 浓度: " << allPointsArr[curZ][index].z;
+	cout << " 当前层: " << curZ << endl;
+}
 
 PetViewer::~PetViewer()
 {
