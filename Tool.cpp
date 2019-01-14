@@ -8,6 +8,8 @@
 #include <iostream>
 #include "stb_image.h"
 #include <math.h>
+#include <fstream>
+
 
 std::vector<glm::vec3*> Manager::controlPointsManager;
 
@@ -104,4 +106,37 @@ void SetVertiesArrWithEBO(unsigned int &VAO, unsigned int &VBO, unsigned int &EB
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+}
+
+void ReadPointsFromFile(const char* fileName, std::vector<glm::vec3>& points) {
+	std::ifstream inFile(fileName, std::ios::in | std::ios::binary);
+	if (!inFile) {
+		std::cout << "file in error" << std::endl;
+		return;
+	}
+
+	char* tmp = (char*)malloc(4);
+	float tmpPos[3];
+	std::vector<glm::vec3> *tmpVec = new std::vector<glm::vec3>();
+	int index = 0;
+	while (inFile.read(tmp, sizeof(float))) {
+		float *tmpFloat = (float*)tmp;
+		tmpPos[index] = *tmpFloat;
+		index++;
+		if (index == 3) {
+			index = 0;
+			points.push_back(glm::vec3(tmpPos[0], tmpPos[1], tmpPos[2]));
+		}
+	}
+}
+
+void WritePointsToFile(const char *fileName, std::vector<glm::vec3>& points) {
+	std::ofstream outfile(fileName, std::ios::binary);
+	if (!outfile) {
+		std::cout << "output error"<< std::endl;
+		return;
+	}
+
+	outfile.write((char*)&points[0], sizeof(glm::vec3)*points.size());
+	outfile.close();
 }

@@ -58,7 +58,7 @@ public:
 				-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
 				-1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left        
 			};
-			glGenVertexArrays(1, &cubeVAO);
+			glGenVertexArrays(1, &cubeVAO); 
 			glGenBuffers(1, &cubeVBO);
 			glBindVertexArray(cubeVAO);
 			glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
@@ -95,3 +95,7 @@ void SetVertiesArr(unsigned int &VAO, unsigned int &VBO, std::vector <glm::vec3*
 
 void SetVertiesArrWithEBO(unsigned int &VAO, unsigned int &VBO, unsigned int &EBO, std::vector <glm::vec3*> &VBOpoints, std::vector <glm::vec3> &EBOpoints);
 	;
+
+void ReadPointsFromFile(const char* fileName, std::vector<glm::vec3>& points);
+
+void WritePointsToFile(const char *fileName, std::vector<glm::vec3>& points);

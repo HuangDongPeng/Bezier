@@ -2,14 +2,13 @@
 #include "PetViewer.h"
 #include <iostream>
 #include <fstream>
-
 using namespace std;
 
-bool isBezier = false;
-void PetViewer::ReadFile() {
+
+void PetViewer::ReadFile(bool isBezier) {
 
 	//¶ÁÎÄ¼þ
-	ifstream inFile("pet_raw1.dat", ios::in | ios::binary);
+	ifstream inFile("pet_raw1.dat",ios::in | ios::binary);
 	if (!inFile) {
 		cout << "error" << endl;
 		return;
@@ -36,17 +35,17 @@ void PetViewer::ReadFile() {
 	{
 		float *tmpFloat = (float*)tmp;
 		(*tmpVec).push_back(glm::vec3(xScreen, yScreen, *tmpFloat));
-		xScreen += step;
-		xCount++;
-
+		
 		if (isBezier&&xCount % 20 == 0 && yCount % 20 == 0) {
 			vecForBezier.push_back(glm::vec3(xScreen, yScreen, *tmpFloat));
 		}
 
+		xScreen += step;
+		xCount++;
 		if (xCount == RAWNUM)
 		{
 			if (vecForBezier.size() != 0) {
-				BezierCurver* newBezierCurver= new BezierCurver(vecForBezier, 0.1f);
+				BezierCurver* newBezierCurver = new BezierCurver(vecForBezier, 0.05f);
 				bezierCurvers.push_back(&(*newBezierCurver));
 				vecForBezier.clear();
 			}
@@ -94,9 +93,12 @@ void PetViewer::ReadFile() {
 	}
 	free(tmp);
 	inFile.close();
+
+
+	InitVector();
+	InitBezierSurface(20, 20, 0.1f);
 }
 
-//
 void PetViewer::DrawAllTriangles() {
 	
 	if (VAO == 0) {
@@ -123,19 +125,15 @@ void PetViewer::DrawAllTriangles() {
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, allPointsArr[curZ].size() * sizeof(glm::vec3), &(allPointsArr[curZ])[0], GL_DYNAMIC_DRAW);
-	glDrawElements(GL_TRIANGLES, eboVector.size(), GL_UNSIGNED_INT,0);
-	//glDrawArrays(GL_POINTS, 0, allPoints.size());
+	glDrawArrays(GL_POINTS, 0, allPointsArr[curZ].size());
 	glBindVertexArray(0);
 }
 
-
 void PetViewer::DrawBezierSurface() {
-	//bezierSurface->DrawSurfaceStatic();
 	if (surfaceVec[curZ] != nullptr) {
 		surfaceVec[curZ]->DrawSurfaceStatic();
 	}
 }
-
 
 PetViewer::PetViewer(glm::mat4 &projection_IN,glm::mat4 &view_IN,int screenWidth_IN,int screenHeight_IN)
 	:projection(&projection_IN)
@@ -145,7 +143,7 @@ PetViewer::PetViewer(glm::mat4 &projection_IN,glm::mat4 &view_IN,int screenWidth
 {
 
 }
-//
+
 void PetViewer::CalculateScePos() {
 	glm::vec3 minPos = allPointsArr[0][0];
 	glm::vec3 maxPos = allPointsArr[0][(RAWNUM*COWNUM)-1];
@@ -196,4 +194,157 @@ void PetViewer::ShowCurMsg(float xpos,float ypos) {
 
 PetViewer::~PetViewer()
 {
+
 }
+
+#pragma region newCode
+void PetViewer::InitVector()
+{
+	float xStep = 2.0 / LENGTH;
+	float yStep = 2.0 / RAWNUM;
+	float xScreen = -1;
+	float yScreen = 1;
+	int xCount = 0;
+	int yCount = 0;
+	//Init right view points vector
+	for (int z_rightView = 0; z_rightView < RAWNUM; z_rightView++) {
+		vector<glm::vec3>* tmpVec = new vector<glm::vec3>();
+		for (int cow = 0; cow < COWNUM; cow++) {
+			for (int index = LENGTH - 1; index >= 0; index--) {
+				float x, y, z;
+				x = xScreen;
+				y = yScreen;
+				z = allPointsArr[index][cow*RAWNUM+ z_rightView].z;
+				tmpVec->push_back(glm::vec3(x,y,z));
+				xScreen += xStep;
+			}
+			xScreen = -1;
+			yScreen -= yStep;
+		}
+		xScreen = -1;
+		yScreen = 1;
+		allPointsArr_right[z_rightView] = *tmpVec;
+	}
+	//Init Vertical view vector
+	for (int z_verticalView = 0; z_verticalView < COWNUM; z_verticalView++) {
+		vector<glm::vec3>* tmpVec = new vector<glm::vec3>();
+		for (int cow = 0; cow < RAWNUM; cow++) {
+			for (int index = LENGTH - 1; index >= 0; index--)
+			{
+				float x, y, z;
+				x = xScreen;
+				y = yScreen;
+				z = allPointsArr[index][RAWNUM-1-cow+(z_verticalView*RAWNUM)].z;
+				tmpVec->push_back(glm::vec3(x, y, z));
+				xScreen += xStep;
+			}
+			xScreen = -1;
+			yScreen -= yStep;
+		}
+		xScreen = -1;
+		yScreen = 1;
+		allPointsArr_vertical[z_verticalView] = *tmpVec;
+	}
+}
+
+void PetViewer::InitBezierSurface(int intervalCow,int intervalRaw,float lerp)
+{
+	//right view
+	for (int z_rightView = 0; z_rightView < COWNUM; z_rightView++) {
+		std::vector<BezierCurver*> curvers;
+		for (int raw = 0; raw < RAWNUM; raw++) {
+			if (raw % intervalRaw != 0)
+				continue;
+
+			std::vector<glm::vec3> pos;
+			for (int index = 0; index < LENGTH;index++) {
+				if (index % intervalCow == 0)
+					pos.push_back(allPointsArr_right[z_rightView][index+raw*LENGTH]);
+			}
+			 BezierCurver* newCurver=new BezierCurver(pos, lerp);
+			 curvers.push_back(newCurver);
+		}
+		surfaceVec_right[z_rightView] = new BezierSurface(curvers);
+	}
+
+	//vertical view
+	for (int z_verticalView = 0; z_verticalView < RAWNUM; z_verticalView++) {
+		std::vector<BezierCurver*> curvers;
+		for (int raw = 0; raw < COWNUM; raw++) {
+			if (raw % intervalRaw != 0)
+				continue;
+
+			std::vector<glm::vec3> pos;
+			for (int index = 0; index < LENGTH; index++) {
+				if (index % intervalCow == 0)
+					pos.push_back(allPointsArr_vertical[z_verticalView][index+raw*LENGTH]);
+			}
+			BezierCurver* newCurver = new BezierCurver(pos, lerp);
+			curvers.push_back(newCurver);
+		}
+		surfaceVec_vertical[z_verticalView] = new BezierSurface(curvers);
+	}
+}
+
+void PetViewer::DrawAllPointsRightView()
+{
+	if (rightViewPointVAO == 0) {
+		glGenVertexArrays(1, &rightViewPointVAO);
+
+		glGenBuffers(1, &rightViewPointVBO);
+		glBindVertexArray(rightViewPointVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, rightViewPointVBO);
+		glBufferData(GL_ARRAY_BUFFER, allPointsArr_right[curZ_otherView].size() * sizeof(glm::vec3), &(allPointsArr_right[curZ_otherView])[0], GL_DYNAMIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
+	glBindVertexArray(rightViewPointVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, rightViewPointVBO);
+	glBufferData(GL_ARRAY_BUFFER, allPointsArr_right[curZ_otherView].size() * sizeof(glm::vec3), &(allPointsArr_right[curZ_otherView])[0], GL_DYNAMIC_DRAW);
+	glDrawArrays(GL_POINTS, 0, allPointsArr_right[curZ_otherView].size());
+	glBindVertexArray(0);
+}
+
+void PetViewer::DrawAllPointsVerticalView()
+{
+	if (verticalViewPointVAO == 0) {
+		glGenVertexArrays(1, &verticalViewPointVAO);
+
+		glGenBuffers(1, &verticalViewPointVBO);
+		glBindVertexArray(verticalViewPointVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, verticalViewPointVBO);
+		glBufferData(GL_ARRAY_BUFFER, allPointsArr_vertical[curZ_otherView].size() * sizeof(glm::vec3), &(allPointsArr_vertical[curZ_otherView])[0], GL_DYNAMIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
+	glBindVertexArray(verticalViewPointVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, verticalViewPointVBO);
+	glBufferData(GL_ARRAY_BUFFER, allPointsArr_vertical[curZ_otherView].size() * sizeof(glm::vec3), &(allPointsArr_vertical[curZ_otherView])[0], GL_DYNAMIC_DRAW);
+	glDrawArrays(GL_POINTS, 0, allPointsArr_vertical[curZ_otherView].size());
+	glBindVertexArray(0);
+}
+
+void PetViewer::DrawBezierSurfaceRightView()
+{
+	if (surfaceVec_right[curZ_otherView] != nullptr) {
+		surfaceVec_right[curZ_otherView]->DrawSurfaceStatic();
+	}
+}
+
+void PetViewer::DrawBezierSurfaceVerticalView()
+{
+	if (surfaceVec_vertical[curZ_otherView] != nullptr) {
+		surfaceVec_vertical[curZ_otherView]->DrawSurfaceStatic();
+	}
+}
+#pragma endregion
+
+
