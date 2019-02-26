@@ -70,6 +70,9 @@
     <Filter Include="资源文件\Shaders\pet">
       <UniqueIdentifier>{f2770443-11d5-451b-9fce-101c224490bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Shaders\Picking">
+      <UniqueIdentifier>{7b7a5238-8b6b-458f-a262-cb4016b2ed02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -111,6 +114,9 @@
     <ClInclude Include="PetViewer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PickingTexture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -127,9 +133,6 @@
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>源文件\Helper</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="BezierCurver.cpp">
       <Filter>源文件</Filter>
@@ -150,6 +153,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PetViewer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="modelMain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PickingTexture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -334,6 +343,12 @@
     </None>
     <None Include="pet.fs">
       <Filter>资源文件\Shaders\pet</Filter>
+    </None>
+    <None Include="picking.vs">
+      <Filter>资源文件\Shaders\Picking</Filter>
+    </None>
+    <None Include="picking.fs">
+      <Filter>资源文件\Shaders\Picking</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

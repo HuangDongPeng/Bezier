@@ -81,7 +81,8 @@ public:
 	
 #pragma endregion
 
-	
+	unsigned int testArr[LENGTH] = { 1 };
+	void test(unsigned int*);
 
 
 	glm::mat4* projection;

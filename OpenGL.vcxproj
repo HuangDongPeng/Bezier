@@ -163,6 +163,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PetViewer.h" />
+    <ClInclude Include="PickingTexture.h" />
     <ClInclude Include="Raytracing.h" />
     <ClInclude Include="Selector.h" />
     <ClInclude Include="Shader.h" />
@@ -177,8 +178,8 @@
     <ClCompile Include="BezierSurface.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Koch.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="modelMain.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -186,6 +187,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PetViewer.cpp" />
+    <ClCompile Include="PickingTexture.cpp" />
     <ClCompile Include="Raytracing.cpp" />
     <ClCompile Include="Selector.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -238,6 +240,8 @@
     <None Include="normalShader.fs" />
     <None Include="normalShader.vs" />
     <None Include="packages.config" />
+    <None Include="picking.fs" />
+    <None Include="picking.vs" />
     <None Include="pointShadow.vs" />
     <None Include="pointShadow.fs" />
     <None Include="pointShadowDepth.fs" />

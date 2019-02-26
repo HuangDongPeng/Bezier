@@ -22,6 +22,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include "Tool.h"
 using namespace std;
 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
@@ -43,10 +44,20 @@ public:
 	}
 
 	// draws the model, and thus all its meshes
-	void Draw(Shader shader)
+	void DrawForFrameBuffer(Shader shader)
 	{
-		for (unsigned int i = 0; i < meshes.size(); i++)
+		for (unsigned int i = 0; i < meshes.size(); i++) {
+			glUniform1ui(glGetUniformLocation(shader.ID, "gDrawIndex"), i);
 			meshes[i].Draw(shader);
+		}
+	}
+
+	void Draw(Shader shader,unsigned int selectedMesh=-1) {
+		for (unsigned int i = 0; i < meshes.size(); i++) {
+			if (selectedMesh == i)
+				continue;
+			meshes[i].Draw(shader);
+		}
 	}
 
 private:

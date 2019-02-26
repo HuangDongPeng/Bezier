@@ -79,6 +79,24 @@ public:
 };
 
 
+class IRenderCallbacks {
+public :
+	virtual	void SetMeshIndex(Shader shader,unsigned int flag) = 0;
+	virtual void Click(Shader shader,bool isSelected) = 0;
+};
+
+class testCallback :public IRenderCallbacks {
+public:
+	void SetMeshIndex(Shader shader, unsigned int flag) {
+		glUniform1ui(glGetUniformLocation(shader.ID, "gDrawIndex"), flag);
+	}
+	void Click(Shader shader, bool isSelected) {
+		shader.setBool("isSelected", isSelected);
+	}
+
+};
+
+
 int VectorSizeByte(std::vector<glm::vec3> vector);
 
 unsigned int loadTexture(char const * path);

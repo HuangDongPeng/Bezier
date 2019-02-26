@@ -10,6 +10,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include "Tool.h"
 using namespace std;
 
 struct Vertex {
@@ -52,7 +53,7 @@ public:
 	}
 
 	// render the mesh
-	void Draw(Shader shader)
+	void Draw(Shader shader, bool isSelected=false)
 	{
 		// bind appropriate textures
 		unsigned int diffuseNr = 1;
@@ -78,8 +79,8 @@ public:
 			glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
 			// and finally bind the texture
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
-		}
 
+		}
 		// draw mesh
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

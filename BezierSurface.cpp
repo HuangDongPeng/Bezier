@@ -175,6 +175,7 @@ void BezierSurface::DrawSurfaceStatic() {
 
 	if (surfaceVAO == 0) {
 		//EBO
+		unsigned int surfaceVBOtest = 0, surfaceEBOtest = 0;
 		int pointCountEveryCow = 1 / lerpStep + 1;
 		std::vector<unsigned int> eboVector;
 		int cow = 0;
@@ -199,13 +200,13 @@ void BezierSurface::DrawSurfaceStatic() {
 
 		glGenVertexArrays(1, &surfaceVAO);
 		glBindVertexArray(surfaceVAO);
-		glGenBuffers(1, &surfaceVBO);
-		glGenBuffers(1, &surfaceEBO);
+		glGenBuffers(1, &surfaceVBOtest);
+		glGenBuffers(1, &surfaceEBOtest);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, surfaceEBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, surfaceEBOtest);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*eboVector.size(), &eboVector[0], GL_STATIC_DRAW);
 
-		glBindBuffer(GL_ARRAY_BUFFER, surfaceVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, surfaceVBOtest);
 		glBufferData(GL_ARRAY_BUFFER, pointsSize + texCoordSize,
 			NULL, GL_DYNAMIC_DRAW);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, pointsSize, &allPoints[0]);

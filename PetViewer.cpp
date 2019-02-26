@@ -6,7 +6,7 @@ using namespace std;
 
 
 void PetViewer::ReadFile(bool isBezier) {
-
+	test(testArr);
 	//读文件
 	ifstream inFile("pet_raw1.dat",ios::in | ios::binary);
 	if (!inFile) {
@@ -192,9 +192,11 @@ void PetViewer::ShowCurMsg(float xpos,float ypos) {
 	cout << " 当前层: " << curZ << endl;
 }
 
-PetViewer::~PetViewer()
-{
+PetViewer::~PetViewer() {}
 
+void PetViewer::test(unsigned int *test)
+{
+	cout << test[2] << endl;
 }
 
 #pragma region newCode
