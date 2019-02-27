@@ -81,7 +81,7 @@ int main()
 	//Model ourModel("model/nanosuit.obj");
 
 	m_pickingTexture.Init(SCR_WIDTH, SCR_HEIGHT); 
-	ModelView modelView(10, 10, 10,0.1);
+	ModelView modelView(160, 160, 200,1);
 
 	while (!glfwWindowShouldClose(window))
 	{

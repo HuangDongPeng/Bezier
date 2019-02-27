@@ -1,67 +1,14 @@
-﻿  ModelView.cpp
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(251): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(252): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(253): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(257): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(258): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(261): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(262): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(263): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(267): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(268): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(271): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(272): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(273): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
+﻿  modelMain.cpp
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(90): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(280): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(281): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(285): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(286): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(288): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(289): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(302): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(392): warning C4244: “参数”: 从“float”转换到“unsigned int”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(398): warning C4244: “参数”: 从“float”转换到“unsigned int”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(446): warning C4244: “参数”: 从“float”转换到“unsigned int”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelmain.cpp(452): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
   OpenGL.vcxproj -> C:\Users\Dangerous\source\repos\OpenGL\Debug\OpenGL.exe
