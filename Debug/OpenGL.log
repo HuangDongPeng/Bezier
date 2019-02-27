@@ -4,7 +4,7 @@ c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(251): warning C4244:
           [
               T=float
           ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(252): warning C4244: “初始化”: 从“T”转换到“int”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(252): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
           with
           [
               T=float
@@ -14,7 +14,17 @@ c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(253): warning C4244:
           [
               T=float
           ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(256): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
+c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(257): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
+          with
+          [
+              T=float
+          ]
+c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(258): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
+          with
+          [
+              T=float
+          ]
+c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(261): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
           with
           [
               T=float
@@ -24,20 +34,34 @@ c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(262): warning C4244:
           [
               T=float
           ]
+c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(263): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
+          with
+          [
+              T=float
+          ]
+c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(267): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
+          with
+          [
+              T=float
+          ]
 c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(268): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
           with
           [
               T=float
           ]
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(255): error C2360: “tmp”的初始化操作由“case”标签跳过
-  c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(252): note: 参见“tmp”的声明
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(258): error C2360: “tmp”的初始化操作由“case”标签跳过
-  c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(252): note: 参见“tmp”的声明
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(261): error C2360: “tmp”的初始化操作由“case”标签跳过
-  c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(252): note: 参见“tmp”的声明
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(264): error C2360: “tmp”的初始化操作由“case”标签跳过
-  c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(252): note: 参见“tmp”的声明
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(267): error C2360: “tmp”的初始化操作由“case”标签跳过
-  c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(252): note: 参见“tmp”的声明
-c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(270): error C2361: “default”标签跳过“tmp”的初始化操作
-  c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(252): note: 参见“tmp”的声明
+c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(271): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
+          with
+          [
+              T=float
+          ]
+c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(272): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
+          with
+          [
+              T=float
+          ]
+c:\users\dangerous\source\repos\opengl\opengl\modelview.cpp(273): warning C4244: “=”: 从“int”转换到“T”，可能丢失数据
+          with
+          [
+              T=float
+          ]
+  OpenGL.vcxproj -> C:\Users\Dangerous\source\repos\OpenGL\Debug\OpenGL.exe

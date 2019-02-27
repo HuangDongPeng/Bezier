@@ -202,39 +202,39 @@ void ModelView::RenderMesh(Shader shader, int selectedPrimID, int selectedViews)
 	glBindVertexArray(0);
 #pragma endregion
 
-//#pragma region up down
-//	model = glm::mat4(1);
-//	shader.setMat4("model", model);
-//	shader.setInt("views", Views::up);
-//	glBindVertexArray(upVAO);
-//	glDrawElements(GL_TRIANGLES, upEBOCount, GL_UNSIGNED_INT, 0);
-//	glBindVertexArray(0);
-//
-//	model = glm::mat4(1);
-//	shader.setInt("views", Views::down);
-//	model = glm::translate(model, glm::vec3(0.0f, -(step*row), 0.0f));
-//	shader.setMat4("model", model);
-//	glBindVertexArray(upVAO);
-//	glDrawElements(GL_TRIANGLES, upEBOCount, GL_UNSIGNED_INT, 0);
-//	glBindVertexArray(0);
-//#pragma endregion
-//
-//#pragma region left right
-//	model = glm::mat4(1);
-//	shader.setMat4("model", model);
-//	shader.setInt("views", Views::left);
-//	glBindVertexArray(leftVAO);
-//	glDrawElements(GL_TRIANGLES, leftEBOCount, GL_UNSIGNED_INT, 0);
-//	glBindVertexArray(0);
-//
-//	model = glm::translate(model, glm::vec3(step*col, 0.0f, 0.0f));
-//	shader.setMat4("model", model);
-//	shader.setInt("views", Views::right);
-//	glBindVertexArray(leftVAO);
-//	glDrawElements(GL_TRIANGLES, leftEBOCount, GL_UNSIGNED_INT, 0);
-//	glBindVertexArray(0);
-//
-//#pragma endregion
+#pragma region up down
+	model = glm::mat4(1);
+	shader.setMat4("model", model);
+	shader.setInt("views", Views::up);
+	glBindVertexArray(upVAO);
+	glDrawElements(GL_TRIANGLES, upEBOCount, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	model = glm::mat4(1);
+	shader.setInt("views", Views::down);
+	model = glm::translate(model, glm::vec3(0.0f, -(step*row), 0.0f));
+	shader.setMat4("model", model);
+	glBindVertexArray(upVAO);
+	glDrawElements(GL_TRIANGLES, upEBOCount, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+#pragma endregion
+
+#pragma region left right
+	model = glm::mat4(1);
+	shader.setMat4("model", model);
+	shader.setInt("views", Views::left);
+	glBindVertexArray(leftVAO);
+	glDrawElements(GL_TRIANGLES, leftEBOCount, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	model = glm::translate(model, glm::vec3(step*col, 0.0f, 0.0f));
+	shader.setMat4("model", model);
+	shader.setInt("views", Views::right);
+	glBindVertexArray(leftVAO);
+	glDrawElements(GL_TRIANGLES, leftEBOCount, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+#pragma endregion
 
 
 }
@@ -247,25 +247,30 @@ glm::vec3 ModelView::CalcRealPos(Views views, int primID)
 	switch (views)
 	{
 	case ModelView::front:
-		result.z = 0;
-		result.x = tmpPrimID % col;
-		int tmp=tmpPrimID - result.x;
-		result.y = tmp % col;
-		break;
 	case ModelView::back:
-		result.z = length;
+		result.z = length-1;
+		result.x = tmpPrimID % col;
+		result.y = tmpPrimID / col;
 		break;
 	case ModelView::left:
 		result.x = 0;
+		result.y = tmpPrimID % row;
+		result.z = tmpPrimID / row;
 		break;
 	case ModelView::right:
-		result.x = col;
+		result.x = col-1;
+		result.y = tmpPrimID % row;
+		result.z = tmpPrimID / row;
 		break;
 	case ModelView::up:
 		result.y = 0;
+		result.x = tmpPrimID % col;
+		result.z = tmpPrimID / col;
 		break;
 	case ModelView::down:
-		result.y = row;
+		result.y = row-1;
+		result.x = tmpPrimID % col;
+		result.z = tmpPrimID / col;
 		break;
 	default:
 		break;
