@@ -161,6 +161,7 @@
     <ClInclude Include="Koch.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelView.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PetViewer.h" />
     <ClInclude Include="PickingTexture.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Koch.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="modelMain.cpp" />
+    <ClCompile Include="ModelView.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -204,6 +206,8 @@
     <None Include="Bezier.vs" />
     <None Include="blinPhone.fs" />
     <None Include="blinPhone.vs" />
+    <None Include="Cube.fs" />
+    <None Include="Cube.vs" />
     <None Include="deferredLightBox.fs" />
     <None Include="deferredLightBox.vs" />
     <None Include="deferredShading.fs" />

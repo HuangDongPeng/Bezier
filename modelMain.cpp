@@ -12,6 +12,7 @@
 #include "Model.h"
 #include "PickingTexture.h"
 #include "Tool.h"
+#include "ModelView.h"
 
 using namespace std;
 
@@ -21,6 +22,8 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 void PickingPhase(Shader ourShader, Model ourModels);
 void RenderPhase(Shader ourShader, Model ourModel, GLFWwindow* window);
+void RenderMeshPhase(Shader shader, GLFWwindow* window, ModelView* modelView);
+void MeshPickingPhase(Shader shader, ModelView* modelView);
 
 unsigned int loadTexture(const char *path);
 unsigned int loadCubemap(vector<std::string> faces);
@@ -73,10 +76,12 @@ int main()
 
 	Shader ourShader("ModelLoading.vs", "ModelLoading.fs");
 	Shader pickShader("picking.vs", "picking.fs");
+	Shader meshShader("Cube.vs", "Cube.fs");
 
 	Model ourModel("model/nanosuit.obj");
 
-	m_pickingTexture.Init(SCR_WIDTH, SCR_HEIGHT);
+	m_pickingTexture.Init(SCR_WIDTH, SCR_HEIGHT); 
+	ModelView modelView(10, 10, 10,0.1);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -90,8 +95,13 @@ int main()
 		// -----
 		processInput(window);
 
-		PickingPhase(pickShader,ourModel);
-		RenderPhase(ourShader,ourModel,window);
+
+
+		MeshPickingPhase(pickShader, &modelView);
+		RenderMeshPhase(meshShader, window, &modelView);
+
+		//PickingPhase(pickShader,ourModel);
+		//RenderPhase(ourShader,ourModel,window);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -331,7 +341,6 @@ unsigned int loadCubemap(vector<std::string> faces)
 	return textureID;
 }
 
-testCallback test;
 void PickingPhase(Shader shader,Model ourModel) {
 
 	m_pickingTexture.EnableWriting();
@@ -395,3 +404,56 @@ void RenderPhase(Shader ourShader,Model ourModel, GLFWwindow* window) {
 
 }
 
+void MeshPickingPhase(Shader shader, ModelView* modelView) {
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	m_pickingTexture.EnableWriting();
+	shader.use();
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+	glm::mat4 view = camera.GetViewMatrix();
+	glm::mat4 model(1);
+
+	shader.setMat4("projection", projection);
+	shader.setMat4("view", view);
+	shader.setMat4("model", model);
+
+	modelView->RenderMesh(shader);
+
+	m_pickingTexture.DisableWriting();
+}
+
+void RenderMeshPhase(Shader shader, GLFWwindow* window,ModelView* modelView) {
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	shader.use();
+	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+	glm::mat4 view = camera.GetViewMatrix();
+	glm::mat4 model(1);
+
+	shader.setMat4("projection", projection);
+	shader.setMat4("view", view);
+	shader.setMat4("model", model);
+
+
+
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+	{
+		PickingTexture::PixelInfo tmp = m_pickingTexture.ReadPixel(lastX, SCR_HEIGHT - lastY - 1);
+		cout << "DrawID: " << tmp.DrawID << "  ";
+		cout << "ObjectID: " << tmp.ObjectID << "  ";
+		cout << "PrimID: " << tmp.PrimID << endl;
+
+		if (tmp.PrimID != 0) {
+			modelView->RenderMesh(shader,tmp.PrimID);
+			return;
+		}
+	}
+
+	modelView->RenderMesh(shader);
+
+}

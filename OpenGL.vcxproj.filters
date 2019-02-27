@@ -73,6 +73,9 @@
     <Filter Include="资源文件\Shaders\Picking">
       <UniqueIdentifier>{7b7a5238-8b6b-458f-a262-cb4016b2ed02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Shaders\Cube">
+      <UniqueIdentifier>{4b36f751-bb61-4ded-813a-412a789e173d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -117,6 +120,9 @@
     <ClInclude Include="PickingTexture.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ModelView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -159,6 +165,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PickingTexture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -349,6 +358,12 @@
     </None>
     <None Include="picking.fs">
       <Filter>资源文件\Shaders\Picking</Filter>
+    </None>
+    <None Include="Cube.fs">
+      <Filter>资源文件\Shaders\Cube</Filter>
+    </None>
+    <None Include="Cube.vs">
+      <Filter>资源文件\Shaders\Cube</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
