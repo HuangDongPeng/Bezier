@@ -78,7 +78,7 @@ int main()
 	Shader pickShader("picking.vs", "picking.fs");
 	Shader meshShader("Cube.vs", "Cube.fs");
 
-	Model ourModel("model/nanosuit.obj");
+	//Model ourModel("model/nanosuit.obj");
 
 	m_pickingTexture.Init(SCR_WIDTH, SCR_HEIGHT); 
 	ModelView modelView(10, 10, 10,0.1);
@@ -445,11 +445,11 @@ void RenderMeshPhase(Shader shader, GLFWwindow* window,ModelView* modelView) {
 	{
 		PickingTexture::PixelInfo tmp = m_pickingTexture.ReadPixel(lastX, SCR_HEIGHT - lastY - 1);
 		cout << "DrawID: " << tmp.DrawID << "  ";
-		cout << "ObjectID: " << tmp.ObjectID << "  ";
+		cout << "views: " << tmp.ObjectID << "  ";
 		cout << "PrimID: " << tmp.PrimID << endl;
 
 		if (tmp.PrimID != 0) {
-			modelView->RenderMesh(shader,tmp.PrimID);
+			modelView->RenderMesh(shader,tmp.PrimID,tmp.ObjectID);
 			return;
 		}
 	}
