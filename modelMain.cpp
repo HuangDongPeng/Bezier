@@ -426,6 +426,7 @@ void MeshPickingPhase(Shader shader, ModelView* modelView) {
 	m_pickingTexture.DisableWriting();
 }
 
+PickingTexture::PixelInfo tmp;
 void RenderMeshPhase(Shader shader, GLFWwindow* window,ModelView* modelView,Shader modelViewCubeShader) {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -444,21 +445,26 @@ void RenderMeshPhase(Shader shader, GLFWwindow* window,ModelView* modelView,Shad
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 	{
-		PickingTexture::PixelInfo tmp = m_pickingTexture.ReadPixel(lastX, SCR_HEIGHT - lastY - 1);
+		tmp = m_pickingTexture.ReadPixel(lastX, SCR_HEIGHT - lastY - 1);
 		cout << "DrawID: " << tmp.DrawID << "  ";
 		cout << "views: " << tmp.ObjectID << "  ";
 		cout << "PrimID: " << tmp.PrimID << endl;
 
-		if (tmp.PrimID != 0) {
-			modelView->RenderMesh(shader,tmp.PrimID,tmp.ObjectID);
-			modelViewCubeShader.use();
-			modelViewCubeShader.setMat4("projection", projection);
-			modelViewCubeShader.setMat4("view", view);
-			modelView->RenderCubeInSelectedPos(ModelView::Views((int)tmp.ObjectID), tmp.PrimID, modelViewCubeShader);
-			return;
-		}
+		//if (tmp.PrimID != 0) {
+		///*	modelView->RenderMesh(shader,tmp.PrimID,tmp.ObjectID);
+		//	modelViewCubeShader.use();
+		//	modelViewCubeShader.setMat4("projection", projection);
+		//	modelViewCubeShader.setMat4("view", view);
+		//	modelView->RenderCubeInSelectedPos(ModelView::Views((int)tmp.ObjectID), tmp.PrimID, modelViewCubeShader);*/
+		//	return;
+		//}
 	}
+	modelView->RenderMesh(shader, tmp.PrimID, tmp.ObjectID);
 
-	modelView->RenderMesh(shader);
+	//RenderSelected Cube
+	modelViewCubeShader.use();
+	modelViewCubeShader.setMat4("projection", projection);
+	modelViewCubeShader.setMat4("view", view);
+	modelView->RenderCubeInSelectedPos(ModelView::Views((int)tmp.ObjectID), tmp.PrimID, modelViewCubeShader);
 
 }

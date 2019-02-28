@@ -45,5 +45,8 @@ private:
 	unsigned int leftVAO =0, leftEBOCount;
 	unsigned int cubeVAO = 0;
 
+	Views curSelectedView;
+	int curSelectedPrimID=0;
+	glm::vec3 curConcPos;
 };
 

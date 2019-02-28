@@ -235,55 +235,66 @@ void ModelView::RenderMesh(Shader shader, int selectedPrimID, int selectedViews)
 glm::vec3 ModelView::CalcConcentrationsPos(Views views, int primID)
 {
 	glm::vec3 result(0);
-	int tmpPrimID = primID - 1;
-	tmpPrimID /= 2;
-	switch (views)
-	{
-	case ModelView::front:
-		result.z = 0;
-		result.x = tmpPrimID % col;
-		result.y = tmpPrimID / col;
-		break;
-	case ModelView::back:
-		result.z = length - 1;
-		result.x = tmpPrimID % col;
-		result.y = tmpPrimID / col;
-		break;
-	case ModelView::left:
-		result.x = 0;
-		result.y = tmpPrimID % row;
-		result.z = tmpPrimID / row;
-		break;
-	case ModelView::right:
-		result.x = col - 1;
-		result.y = tmpPrimID % row;
-		result.z = tmpPrimID / row;
-		break;
-	case ModelView::up:
-		result.y = 0;
-		result.x = tmpPrimID % col;
-		result.z = tmpPrimID / col;
-		break;
-	case ModelView::down:
-		result.y = row - 1;
-		result.x = tmpPrimID % col;
-		result.z = tmpPrimID / col;
-		break;
-	default:
-		break;
-	}
 
-	std::cout << "x: " << result.x;
-	std::cout << "	y: " << result.y;
-	std::cout << "	z: " << result.z << std::endl;
+	if (curSelectedView != views || curSelectedPrimID != primID)
+	{
+		curSelectedView = views;
+		curSelectedPrimID = primID;
+		int tmpPrimID = primID - 1;
+		tmpPrimID /= 2;
+		switch (views)
+		{
+		case ModelView::front:
+			result.z = 0;
+			result.x = tmpPrimID % col;
+			result.y = tmpPrimID / col;
+			break;
+		case ModelView::back:
+			result.z = length - 1;
+			result.x = tmpPrimID % col;
+			result.y = tmpPrimID / col;
+			break;
+		case ModelView::left:
+			result.x = 0;
+			result.y = tmpPrimID % row;
+			result.z = tmpPrimID / row;
+			break;
+		case ModelView::right:
+			result.x = col - 1;
+			result.y = tmpPrimID % row;
+			result.z = tmpPrimID / row;
+			break;
+		case ModelView::up:
+			result.y = 0;
+			result.x = tmpPrimID % col;
+			result.z = tmpPrimID / col;
+			break;
+		case ModelView::down:
+			result.y = row - 1;
+			result.x = tmpPrimID % col;
+			result.z = tmpPrimID / col;
+			break;
+		default:
+			break;
+		}
+
+		std::cout << "x: " << result.x;
+		std::cout << "	y: " << result.y;
+		std::cout << "	z: " << result.z << std::endl;
+	}
+	else
+	{
+		return result=curConcPos;
+	}
 	return result;
 }
 
 void ModelView::RenderCubeInSelectedPos(Views views,int primID ,Shader shader)
 {
-	glm::vec3 concPos = CalcConcentrationsPos(views, primID);
+	curConcPos = CalcConcentrationsPos(views, primID);
+
 	glm::mat4 model(1);
-	model = glm::translate(model, glm::vec3(concPos.x*step,-(concPos.y+1)*step,-(concPos.z)*step));
+	model = glm::translate(model, glm::vec3(curConcPos.x*step,-(curConcPos.y)*step,-(curConcPos.z)*step));
 	model = glm::scale(model, glm::vec3(step*0.5f));
 	shader.use();
 	shader.setMat4("model", model);
