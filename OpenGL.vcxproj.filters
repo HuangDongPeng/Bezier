@@ -359,11 +359,17 @@
     <None Include="picking.fs">
       <Filter>资源文件\Shaders\Picking</Filter>
     </None>
-    <None Include="Cube.fs">
-      <Filter>资源文件\Shaders\Cube</Filter>
+    <None Include="Mesh.fs">
+      <Filter>资源文件\Shaders\Picking</Filter>
     </None>
-    <None Include="Cube.vs">
-      <Filter>资源文件\Shaders\Cube</Filter>
+    <None Include="Mesh.vs">
+      <Filter>资源文件\Shaders\Picking</Filter>
+    </None>
+    <None Include="ModelViewCube.vs">
+      <Filter>资源文件\Shaders\Picking</Filter>
+    </None>
+    <None Include="ModelViewCube.fs">
+      <Filter>资源文件\Shaders\Picking</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

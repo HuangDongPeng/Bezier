@@ -206,8 +206,8 @@
     <None Include="Bezier.vs" />
     <None Include="blinPhone.fs" />
     <None Include="blinPhone.vs" />
-    <None Include="Cube.fs" />
-    <None Include="Cube.vs" />
+    <None Include="Mesh.fs" />
+    <None Include="Mesh.vs" />
     <None Include="deferredLightBox.fs" />
     <None Include="deferredLightBox.vs" />
     <None Include="deferredShading.fs" />
@@ -233,6 +233,8 @@
     <None Include="lambert.vs" />
     <None Include="light.fs" />
     <None Include="light.vs" />
+    <None Include="ModelViewCube.fs" />
+    <None Include="ModelViewCube.vs" />
     <None Include="pet.fs" />
     <None Include="pet.vs" />
     <None Include="phone.fs" />

@@ -22,7 +22,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 void PickingPhase(Shader ourShader, Model ourModels);
 void RenderPhase(Shader ourShader, Model ourModel, GLFWwindow* window);
-void RenderMeshPhase(Shader shader, GLFWwindow* window, ModelView* modelView);
+void RenderMeshPhase(Shader shader, GLFWwindow* window, ModelView* modelView, Shader modelViewCubeShader);
 void MeshPickingPhase(Shader shader, ModelView* modelView);
 
 unsigned int loadTexture(const char *path);
@@ -76,12 +76,13 @@ int main()
 
 	Shader ourShader("ModelLoading.vs", "ModelLoading.fs");
 	Shader pickShader("picking.vs", "picking.fs");
-	Shader meshShader("Cube.vs", "Cube.fs");
+	Shader meshShader("Mesh.vs", "Mesh.fs");
+	Shader ModelViewCubeShader("ModelViewCube.vs", "ModelViewCube.fs");
 
 	//Model ourModel("model/nanosuit.obj");
 
 	m_pickingTexture.Init(SCR_WIDTH, SCR_HEIGHT); 
-	ModelView modelView(160, 160, 200,1);
+	ModelView modelView(16, 16, 20,0.1);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -98,7 +99,7 @@ int main()
 
 
 		MeshPickingPhase(pickShader, &modelView);
-		RenderMeshPhase(meshShader, window, &modelView);
+		RenderMeshPhase(meshShader, window, &modelView, ModelViewCubeShader);
 
 		//PickingPhase(pickShader,ourModel);
 		//RenderPhase(ourShader,ourModel,window);
@@ -425,7 +426,7 @@ void MeshPickingPhase(Shader shader, ModelView* modelView) {
 	m_pickingTexture.DisableWriting();
 }
 
-void RenderMeshPhase(Shader shader, GLFWwindow* window,ModelView* modelView) {
+void RenderMeshPhase(Shader shader, GLFWwindow* window,ModelView* modelView,Shader modelViewCubeShader) {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
@@ -450,6 +451,10 @@ void RenderMeshPhase(Shader shader, GLFWwindow* window,ModelView* modelView) {
 
 		if (tmp.PrimID != 0) {
 			modelView->RenderMesh(shader,tmp.PrimID,tmp.ObjectID);
+			modelViewCubeShader.use();
+			modelViewCubeShader.setMat4("projection", projection);
+			modelViewCubeShader.setMat4("view", view);
+			modelView->RenderCubeInSelectedPos(ModelView::Views((int)tmp.ObjectID), tmp.PrimID, modelViewCubeShader);
 			return;
 		}
 	}
