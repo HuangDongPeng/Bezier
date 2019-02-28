@@ -5,7 +5,7 @@ ConcentrationDataManager* ConcentrationDataManager::instance = NULL;
 
 ConcentrationDataManager::ConcentrationDataManager()
 {
-
+	instance = this;
 }
 
 
