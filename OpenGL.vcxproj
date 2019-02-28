@@ -158,6 +158,7 @@
     <ClInclude Include="BezierCurver.h" />
     <ClInclude Include="BezierSurface.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ConcentrationDataManager.h" />
     <ClInclude Include="Koch.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="BezierCurver.cpp" />
     <ClCompile Include="BezierSurface.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ConcentrationDataManager.cpp" />
     <ClCompile Include="Koch.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="modelMain.cpp" />

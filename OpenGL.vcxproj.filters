@@ -76,6 +76,9 @@
     <Filter Include="资源文件\Shaders\Cube">
       <UniqueIdentifier>{4b36f751-bb61-4ded-813a-412a789e173d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Picking">
+      <UniqueIdentifier>{b4b02a9f-4528-42f1-8496-8913b517ae15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -118,10 +121,13 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PickingTexture.h">
-      <Filter>头文件</Filter>
+      <Filter>Picking</Filter>
     </ClInclude>
     <ClInclude Include="ModelView.h">
-      <Filter>头文件</Filter>
+      <Filter>Picking</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcentrationDataManager.h">
+      <Filter>Picking</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -165,10 +171,13 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PickingTexture.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Picking</Filter>
     </ClCompile>
     <ClCompile Include="ModelView.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="ConcentrationDataManager.cpp">
+      <Filter>Picking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

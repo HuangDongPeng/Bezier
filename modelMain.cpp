@@ -405,6 +405,7 @@ void RenderPhase(Shader ourShader,Model ourModel, GLFWwindow* window) {
 
 }
 
+#pragma region ÆÁÄ»µã»÷
 void MeshPickingPhase(Shader shader, ModelView* modelView) {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -427,7 +428,7 @@ void MeshPickingPhase(Shader shader, ModelView* modelView) {
 }
 
 PickingTexture::PixelInfo tmp;
-void RenderMeshPhase(Shader shader, GLFWwindow* window,ModelView* modelView,Shader modelViewCubeShader) {
+void RenderMeshPhase(Shader shader, GLFWwindow* window, ModelView* modelView, Shader modelViewCubeShader) {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
@@ -449,22 +450,15 @@ void RenderMeshPhase(Shader shader, GLFWwindow* window,ModelView* modelView,Shad
 		cout << "DrawID: " << tmp.DrawID << "  ";
 		cout << "views: " << tmp.ObjectID << "  ";
 		cout << "PrimID: " << tmp.PrimID << endl;
-
-		//if (tmp.PrimID != 0) {
-		///*	modelView->RenderMesh(shader,tmp.PrimID,tmp.ObjectID);
-		//	modelViewCubeShader.use();
-		//	modelViewCubeShader.setMat4("projection", projection);
-		//	modelViewCubeShader.setMat4("view", view);
-		//	modelView->RenderCubeInSelectedPos(ModelView::Views((int)tmp.ObjectID), tmp.PrimID, modelViewCubeShader);*/
-		//	return;
-		//}
 	}
 	modelView->RenderMesh(shader, tmp.PrimID, tmp.ObjectID);
 
-	//RenderSelected Cube
 	modelViewCubeShader.use();
 	modelViewCubeShader.setMat4("projection", projection);
 	modelViewCubeShader.setMat4("view", view);
 	modelView->RenderCubeInSelectedPos(ModelView::Views((int)tmp.ObjectID), tmp.PrimID, modelViewCubeShader);
-
 }
+
+#pragma endregion
+
+

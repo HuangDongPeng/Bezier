@@ -3,7 +3,9 @@
 #include <vector>
 #include "glm/glm.hpp"
 #include "Camera.h"
-class ModelView
+#include "ConcentrationDataManager.h"
+
+class ModelView:public ISyncViews
 {
 public:
 	enum Views
@@ -22,6 +24,7 @@ public:
 	void RenderMesh(Shader shader, int selectedPrimID=-1,int selectedViews=0);
 	void RenderCubeInSelectedPos(Views views, int primID,Shader shader);
 
+	void SyncViews(glm::vec3 concPos);
 
 private:
 	void SpawnVertex(int rowVertexNum, int colVertexNum, int lengthVertexNum);
@@ -30,6 +33,7 @@ private:
 	glm::vec3 CalcConcentrationsPos(Views views, int primID);
 
 private:
+
 	int row;
 	int col;
 	int length;

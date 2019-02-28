@@ -15,6 +15,7 @@ ModelView::ModelView(int IN_row, int IN_col, int IN_length, float IN_step)
 
 	SpawnVertex(rowVertexNum, colVertexNum, lengthVertexNum);
 
+	ConcentrationDataManager::GetInstance()->modelView = this;;
 	//cubeShader = &Shader("ModelViewCube.vs", "ModelViewCube.fs");
 }
 
@@ -24,7 +25,6 @@ ModelView::~ModelView()
 
 void ModelView::SpawnVertex(int rowVertexNum, int colVertexNum, int lengthVertexNum)
 {
-
 	glm::vec3 curVertex = glm::vec3(0);
 	std::vector<glm::vec3> vertexVec;
 	std::vector<int> eboVec;
@@ -32,65 +32,6 @@ void ModelView::SpawnVertex(int rowVertexNum, int colVertexNum, int lengthVertex
 	InitVAO(frontVAO, frontEBOCount, rowVertexNum, colVertexNum, ModelView::Views::front);
 	InitVAO(upVAO, upEBOCount, lengthVertexNum, colVertexNum, ModelView::Views::up);
 	InitVAO(leftVAO, leftEBOCount, lengthVertexNum, rowVertexNum, ModelView::Views::left);
-
-
-	//#pragma region UpFace
-	//	eboVec.clear();
-	//	vertexVec.clear();
-	//	curVertex = glm::vec3(0);
-	//	for (int length = 0; length < lengthVertexNum; length++)
-	//	{
-	//		for (int col = 0; col < colVertexNum; col++)
-	//		{
-	//			vertexVec.push_back(curVertex);
-	//			curVertex.x += step;
-	//		}
-	//		curVertex.x = 0;
-	//		curVertex.z -= step;
-	//	}
-	//
-	//	//ÉèÖÃEBO
-	//	int index = 0;
-	//	for (int length = 0; length < lengthVertexNum-1; length++)
-	//	{
-	//		index = length * lengthVertexNum;
-	//		for (int col = 0; col < colVertexNum - 1; col++) {
-	//			eboVec.push_back(index);
-	//			eboVec.push_back(index + 1);
-	//			eboVec.push_back(index + colVertexNum);
-	//
-	//			eboVec.push_back(index + 1);
-	//			eboVec.push_back(index + colVertexNum + 1);
-	//			eboVec.push_back(index + colVertexNum);
-	//
-	//			index++;
-	//		}
-	//	}
-	//	if (upVAO == 0) {
-	//		unsigned int vbo, ebo;
-	//		glGenVertexArrays(1, &upVAO);
-	//		glBindVertexArray(upVAO);
-	//		glGenBuffers(1, &vbo);
-	//		glGenBuffers(1, &ebo);
-	//
-	//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	//		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*eboVec.size(), &eboVec[0], GL_STATIC_DRAW);
-	//
-	//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	//		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3)*vertexVec.size(), &vertexVec[0], GL_STATIC_DRAW);
-	//
-	//		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	//		glEnableVertexAttribArray(0);
-	//
-	//		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//		glBindVertexArray(0);
-	//		upEBOCount = eboVec.size();
-	//	}
-	//#pragma endregion
-
-#pragma region leftFace
-
-#pragma endregion
 
 }
 void ModelView::InitVAO(unsigned int &vao, unsigned int &eboCount, int rowVertexNum, int colVertexNum, ModelView::Views views)
@@ -236,6 +177,7 @@ glm::vec3 ModelView::CalcConcentrationsPos(Views views, int primID)
 {
 	glm::vec3 result(0);
 
+	//has changed
 	if (curSelectedView != views || curSelectedPrimID != primID)
 	{
 		curSelectedView = views;
@@ -277,7 +219,7 @@ glm::vec3 ModelView::CalcConcentrationsPos(Views views, int primID)
 		default:
 			break;
 		}
-
+		ConcentrationDataManager::GetInstance()->SyncViews(result);
 		std::cout << "x: " << result.x;
 		std::cout << "	y: " << result.y;
 		std::cout << "	z: " << result.z << std::endl;
@@ -363,4 +305,10 @@ void ModelView::RenderCube(Shader shader)
 	glBindVertexArray(cubeVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
+}
+
+void ModelView::SyncViews(glm::vec3 concPos)
+{
+	std::cout << "modelviewer sync called by concManager" << std::endl;
+	curConcPos = concPos;
 }
